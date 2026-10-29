@@ -1,13 +1,13 @@
-'use client';
+﻿'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Honeypot } from '@/components/ui/Honeypot';
 import { ApiError } from '@/lib/http';
-import { mapFieldErrors, submitEnquiry } from '@/lib/submissions';
+import { mapFieldErrors, newSubmissionKey, submitEnquiry } from '@/lib/submissions';
 import { buildWhatsAppUrl } from '@/lib/site-config';
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import {
@@ -35,6 +35,8 @@ const FIELD_MAP: Record<string, string> = {
 };
 
 export default function ContactPage() {
+  // One key per filled-in form: a retry after a network blip returns the same reference, not a duplicate lead.
+  const submissionKey = useRef(newSubmissionKey());
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -90,7 +92,8 @@ export default function ContactPage() {
         message: formData.message.trim(),
         source: 'contact_page',
         hp_field: honeypot || undefined,
-      });
+      }, submissionKey.current);
+      submissionKey.current = newSubmissionKey();
       setReference(ref);
       setIsSuccess(true);
     } catch (error) {
@@ -401,7 +404,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <strong className="block text-white mb-0.5">Business &amp; Plant Operating Hours:</strong>
-                      <span className="text-gray-300 block">Monday – Saturday: 8:30 AM – 7:00 PM IST</span>
+                      <span className="text-gray-300 block">Monday - Saturday: 8:30 AM - 7:00 PM IST</span>
                       <span className="text-xs text-gray-400 block">Sunday: Closed (Breakdown Hotline Open)</span>
                     </div>
                   </div>
@@ -472,3 +475,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

@@ -189,6 +189,15 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li className="pt-2 border-t border-white/10">
+                <Link
+                  href="/categories"
+                  className="text-blue-300 hover:text-white font-semibold flex items-center gap-1 transition-colors"
+                >
+                  <span>All Categories Directory</span>
+                  <span>→</span>
+                </Link>
+              </li>
             </ul>
           </div>
 

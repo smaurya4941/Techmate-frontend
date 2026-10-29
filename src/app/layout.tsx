@@ -23,21 +23,106 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Techmate Industries | Technifying Your Kitchen - Premium Commercial Kitchen & Bakery Equipment Solutions",
+  metadataBase: new URL("https://techmateindustries.com"),
+  title: {
+    default: "Techmate Industries | Technifying Your Kitchen - Commercial Kitchen & Bakery Equipment",
+    template: "%s | Techmate Industries",
+  },
   description:
-    "Technifying Your Kitchen. Techmate Industries is a premium commercial kitchen & bakery equipment solutions company: heavy-duty cooking ranges, rotary bakery ovens, spiral mixers, blast chillers, and turnkey food-service equipment.",
+    "Technifying Your Kitchen. Techmate Industries is a premier manufacturer and distributor of commercial food-service machinery, heavy-duty commercial kitchen equipment, industrial bakery ovens, spiral mixers, and commercial refrigeration systems.",
   keywords: [
     "commercial kitchen equipment",
     "industrial bakery machines",
-    "commercial refrigeration",
+    "commercial refrigeration systems",
+    "rotary rack ovens",
+    "spiral dough mixers",
     "combi ovens",
     "turnkey kitchen planning",
     "Techmate Industries",
-    "stainless steel fabrication",
+    "stainless steel commercial kitchen fabrication",
+    "commercial food service machinery",
   ],
-  authors: [{ name: "Techmate Industries" }],
+  authors: [{ name: "Techmate Industries", url: "https://techmateindustries.com" }],
+  creator: "Techmate Industries Pvt. Ltd.",
+  publisher: "Techmate Industries Pvt. Ltd.",
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: "https://techmateindustries.com",
+    siteName: "Techmate Industries",
+    title: "Techmate Industries | Commercial Kitchen, Bakery & Refrigeration Systems",
+    description:
+      "Premier B2B manufacturer and turnkey engineering provider of commercial kitchen and industrial bakery machinery.",
+    images: [
+      {
+        url: "/images/og-techmate.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Techmate Industries - Commercial Food Service Machinery",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Techmate Industries | Commercial Food Service Machinery",
+    description:
+      "Technifying Your Kitchen. Industrial bakery ovens, heavy-duty cooking ranges, and commercial refrigeration systems.",
+    images: ["/images/og-techmate.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
+  },
+};
+
+const jsonLdOrganization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Techmate Industries Pvt. Ltd.",
+  url: "https://techmateindustries.com",
+  logo: "https://techmateindustries.com/images/techmate-logo.png",
+  description:
+    "Enterprise manufacturer and distributor of commercial kitchen, bakery and refrigeration systems.",
+  telephone: "+91-800-832-4628",
+  email: "sales@techmateindustries.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Plot No. C-14, MIDC Industrial Area, Turbhe",
+    addressLocality: "Navi Mumbai",
+    addressRegion: "Maharashtra",
+    postalCode: "400705",
+    addressCountry: "IN",
+  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+91-800-832-4628",
+      contactType: "sales",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi"],
+    },
+  ],
+};
+
+const jsonLdWebSite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Techmate Industries",
+  url: "https://techmateindustries.com",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://techmateindustries.com/products?search={search_term_string}",
+    "query-input": "required name=search_term_string",
   },
 };
 
@@ -51,7 +136,17 @@ export default function RootLayout({
       lang="en"
       className={`${jakartaSans.variable} ${inter.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-white text-brand-slate antialiased selection:bg-brand-red selection:text-white">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col font-sans bg-white text-brand-slate antialiased selection:bg-[#D62836] selection:text-white">
         {children}
       </body>
     </html>

@@ -10,7 +10,7 @@ import { SITE } from '@/lib/site-config';
 export function Hero() {
   return (
     <section
-      className="relative min-h-[92vh] sm:min-h-[96vh] flex items-center justify-start overflow-hidden pt-28 pb-20 bg-[#08090a]"
+      className="relative min-h-[92vh] sm:min-h-[96vh] flex items-center justify-start overflow-hidden pt-28 pb-20 bg-[#0B1A2C]"
       id="hero"
     >
       {/* 1. Full-Bleed Background Image with Subtle Atmospheric Zoom on Mount */}
@@ -30,8 +30,8 @@ export function Hero() {
         />
 
         {/* Cinematic gradient scrims for contrast */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#08090a] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B1A2C]/95 via-[#0B1A2C]/80 to-[#0B1A2C]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1A2C] via-transparent to-transparent opacity-80" />
       </motion.div>
 
       {/* 2. Main Content Container with Staggered Entrance */}
@@ -80,10 +80,10 @@ export function Hero() {
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
               <Link
                 href="/products"
-                className="inline-flex items-center px-6 py-3.5 rounded-xl bg-black/40 hover:bg-black/60 text-gray-200 hover:text-white font-medium backdrop-blur-md border border-white/10 transition-colors text-xs tracking-wider uppercase gap-2"
+                className="inline-flex items-center px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-md border border-white/25 transition-colors text-xs tracking-wider uppercase gap-2"
               >
                 <span>Explore Products</span>
-                <ArrowRight className="w-3.5 h-3.5 text-blue-400" />
+                <ArrowRight className="w-3.5 h-3.5 text-blue-300" />
               </Link>
             </motion.div>
           </motion.div>

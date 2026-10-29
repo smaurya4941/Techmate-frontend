@@ -36,7 +36,7 @@ export function CaseStudiesCarousel() {
   };
 
   return (
-    <section className="py-20 lg:py-28 bg-[#08090a] px-6 sm:px-8 border-t border-white/5 relative overflow-hidden" id="case-studies">
+    <section className="py-20 lg:py-28 bg-white px-6 sm:px-8 border-t border-gray-100 relative overflow-hidden" id="case-studies">
       <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Top Header: Badge, Headline, Paragraph Description & Navigation Arrows (Fade In) */}
@@ -44,25 +44,25 @@ export function CaseStudiesCarousel() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-4">
             <div className="space-y-4 max-w-xl">
               {/* Pill Badge */}
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#181d28] text-[11px] font-bold tracking-widest text-gray-300 uppercase border border-white/10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F3F6FA] text-[11px] font-bold tracking-widest text-[#174A83] uppercase border border-gray-200">
                 CASE STUDIES
               </span>
 
               {/* Headline with Highlighted Phrase */}
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15] font-heading">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#102B46] tracking-tight leading-[1.15] font-heading">
                 Explore Our Insightful<br />
-                <span className="text-lime-400 sm:text-blue-400 font-extrabold">Case Studies</span>
+                <span className="text-[#174A83] font-extrabold">Case Studies</span>
               </h2>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between lg:justify-end gap-6 lg:max-w-xl">
-              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-md">
+              <p className="text-xs sm:text-sm text-[#475467] leading-relaxed max-w-md">
                 Working with Techmate turnkey engineering gives you complete peace of mind in knowing that your kitchen operations are safe, compliant, and optimized for high volume.
               </p>
 
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-blue-300 transition-colors shrink-0"
+                className="inline-flex items-center gap-2 text-xs font-bold text-[#174A83] hover:text-[#D62836] transition-colors shrink-0"
               >
                 <span>View all projects</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -74,7 +74,7 @@ export function CaseStudiesCarousel() {
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleScroll('left')}
-                  className="w-12 h-12 rounded-full border border-white/20 hover:border-white/40 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                  className="w-12 h-12 rounded-full border border-gray-300 hover:border-gray-500 flex items-center justify-center text-[#102B46] hover:bg-gray-100 transition-colors"
                   aria-label="Previous Case Study"
                 >
                   <ChevronLeft className="w-5 h-5" />
@@ -83,7 +83,7 @@ export function CaseStudiesCarousel() {
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleScroll('right')}
-                  className="w-12 h-12 rounded-full border border-white/20 hover:border-white/40 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+                  className="w-12 h-12 rounded-full border border-gray-300 hover:border-gray-500 flex items-center justify-center text-[#102B46] hover:bg-gray-100 transition-colors"
                   aria-label="Next Case Study"
                 >
                   <ChevronRight className="w-5 h-5" />

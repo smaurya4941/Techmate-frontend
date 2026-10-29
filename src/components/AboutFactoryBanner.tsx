@@ -25,42 +25,42 @@ export function AboutFactoryBanner() {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-[#08090a] px-6 sm:px-8 border-t border-white/5 relative overflow-hidden" id="about">
+    <section className="py-20 lg:py-28 bg-white px-6 sm:px-8 border-t border-gray-100 relative overflow-hidden" id="about">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           
           {/* Left Column (Fade In from Left) */}
           <div className="lg:col-span-6 space-y-8">
             <FadeIn direction="left">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#181d28] text-[11px] font-bold tracking-widest text-gray-400 uppercase border border-white/10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F3F6FA] text-[11px] font-bold tracking-widest text-[#174A83] uppercase border border-gray-200">
                 MANUFACTURING &amp; CONSULTANCY
               </span>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.16] font-heading mt-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#102B46] tracking-tight leading-[1.16] font-heading mt-4">
                 We Do Engineering For Developing An Effective Food Facility Culture
               </h2>
 
               {/* Stat & Description Row */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 pt-4">
                 <div className="shrink-0">
-                  <div className="text-4xl sm:text-5xl font-extrabold text-white font-heading tracking-tight">
+                  <div className="text-4xl sm:text-5xl font-extrabold text-[#102B46] font-heading tracking-tight">
                     65K+
                   </div>
-                  <div className="text-[11px] uppercase tracking-wider text-gray-400 font-bold mt-1">
+                  <div className="text-[11px] uppercase tracking-wider text-[#D62836] font-bold mt-1">
                     SQ.FT. PLANT MIDC
                   </div>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-sm pt-1">
+                <p className="text-xs sm:text-sm text-[#475467] leading-relaxed max-w-sm pt-1">
                   Giving turnkey engineering for every commercial kitchen projection, equipment sizing, and layout analysis for hospitality projects across India.
                 </p>
               </div>
 
               {/* Feature Card with Video Thumbnail & Checklist */}
-              <div className="bg-[#12141c] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-2xl flex flex-col sm:flex-row items-center gap-6 mt-8">
+              <div className="bg-[#F8FAFC] border border-gray-200/90 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center gap-6 mt-8">
                 {/* Video Thumbnail */}
                 <div
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="relative w-full sm:w-44 h-28 rounded-xl overflow-hidden cursor-pointer group shrink-0 border border-white/10 shadow-lg"
+                  className="relative w-full sm:w-44 h-28 rounded-xl overflow-hidden cursor-pointer group shrink-0 border border-gray-200 shadow-md bg-gray-100"
                 >
                   <Image
                     src="/images/about-video-thumb.jpg"
@@ -68,7 +68,7 @@ export function AboutFactoryBanner() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/15 transition-colors" />
+                  <div className="absolute inset-0 bg-black/25 group-hover:bg-black/10 transition-colors" />
                   
                   {/* Play Button */}
                   <motion.div
@@ -84,8 +84,8 @@ export function AboutFactoryBanner() {
                 <div className="w-full space-y-2.5">
                   {checklistItems.map((item, idx) => (
                     <div key={idx} className="flex items-center gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span className="text-xs sm:text-sm font-semibold text-gray-200">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span className="text-xs sm:text-sm font-semibold text-[#102B46]">
                         {item}
                       </span>
                     </div>
@@ -98,7 +98,7 @@ export function AboutFactoryBanner() {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-[#174A83] hover:bg-[#123a67] text-white font-bold text-sm tracking-wide shadow-lg shadow-blue-900/40 transition-colors"
+                    className="inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-[#D62836] hover:bg-[#b81d29] text-white font-bold text-sm tracking-wide shadow-lg shadow-[#D62836]/25 transition-colors"
                   >
                     Contact Us
                   </Link>
@@ -107,18 +107,18 @@ export function AboutFactoryBanner() {
                 <div className="flex items-center gap-3">
                   <a
                     href="tel:+912227788900"
-                    className="w-12 h-12 rounded-full bg-[#181d28] border border-white/10 flex items-center justify-center text-white hover:border-white/30 transition-all shrink-0"
+                    className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#174A83] hover:border-[#174A83] transition-all shrink-0 shadow-sm"
                     aria-label="Call Techmate Factory Desk"
                   >
-                    <Phone className="w-5 h-5 text-gray-300" />
+                    <Phone className="w-5 h-5 text-[#174A83]" />
                   </a>
                   <div className="text-left">
-                    <span className="text-xs text-blue-400 font-semibold block leading-tight">
+                    <span className="text-xs text-[#174A83] font-semibold block leading-tight">
                       Have Any Questions?
                     </span>
                     <a
                       href="tel:+912227788900"
-                      className="text-sm sm:text-base font-bold text-white hover:text-blue-300 transition-colors font-heading tracking-wide"
+                      className="text-sm sm:text-base font-bold text-[#102B46] hover:text-[#174A83] transition-colors font-heading tracking-wide"
                     >
                       +91 (022) 2778-8900
                     </a>
@@ -129,17 +129,18 @@ export function AboutFactoryBanner() {
           </div>
 
           {/* Right Column: Full-Height Boardroom Photographic Showcase (Fade In from Right) */}
-          <div className="lg:col-span-6 flex justify-center">
-            <FadeIn direction="right" delay={0.15}>
-              <div className="relative w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/3] sm:aspect-square lg:aspect-[4/3] group">
+          <div className="lg:col-span-6 flex justify-center w-full">
+            <FadeIn direction="right" delay={0.15} className="w-full max-w-lg lg:max-w-none">
+              <div className="relative w-full rounded-3xl overflow-hidden border border-gray-200 shadow-xl aspect-[4/3] sm:aspect-square lg:aspect-[4/3] group bg-white">
                 <Image
                   src="/images/about-team-meeting.jpg"
                   alt="Techmate Project Engineers and Executive Team in Boardroom Consultation"
                   fill
                   priority
+                  sizes="(min-width: 1024px) 50vw, 90vw"
                   className="object-cover group-hover:scale-102 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#102B46]/50 via-transparent to-transparent opacity-40" />
               </div>
             </FadeIn>
           </div>

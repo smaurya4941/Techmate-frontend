@@ -6,22 +6,22 @@ import { OWN_BRANDS, PARTNER_BRANDS } from '@/lib/brands-data';
 
 export function BrandsShowcase() {
   return (
-    <section className="py-20 lg:py-24 bg-[#0a0d14] px-6 sm:px-8 border-t border-white/5" id="brands">
+    <section className="py-20 lg:py-24 bg-white px-6 sm:px-8 border-t border-gray-100" id="brands">
       <div className="max-w-7xl mx-auto space-y-12">
         <FadeIn direction="up">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-4 max-w-xl">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#181d28] text-[11px] font-bold tracking-widest text-gray-300 uppercase border border-white/10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F3F6FA] text-[11px] font-bold tracking-widest text-[#174A83] uppercase border border-gray-200">
                 AUTHORISED BRANDS
               </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15] font-heading">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#102B46] tracking-tight leading-[1.15] font-heading">
                 World-Class Brands,<br />
-                <span className="text-blue-400">One Trusted Partner</span>
+                <span className="text-[#174A83]">One Trusted Partner</span>
               </h2>
             </div>
             <Link
               href="/brands"
-              className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-blue-300 transition-colors shrink-0"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#174A83] hover:text-[#D62836] transition-colors shrink-0"
             >
               <span>View brand directory</span>
               <ArrowRight className="w-4 h-4" />
@@ -37,7 +37,7 @@ export function BrandsShowcase() {
             <StaggerItem key={brand.slug}>
               <Link
                 href={`/brands/${brand.slug}`}
-                className="h-28 flex flex-col items-center justify-center gap-1 text-center px-4 rounded-2xl bg-[#111215] border border-white/5 hover:border-blue-400/40 transition-colors font-heading font-bold text-base text-gray-200 hover:text-white"
+                className="h-28 flex flex-col items-center justify-center gap-1 text-center px-4 rounded-2xl bg-[#F8FAFC] border border-gray-200/80 hover:border-[#174A83]/50 hover:bg-white shadow-sm hover:shadow-md transition-all font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
               >
                 <span>{brand.name}</span>
                 {brand.country && (
@@ -49,13 +49,13 @@ export function BrandsShowcase() {
         </StaggerGroup>
 
         <FadeIn direction="up">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-400">
-            <span className="font-bold uppercase tracking-wider text-gray-500">Our own brands:</span>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
+            <span className="font-bold uppercase tracking-wider text-gray-600">Our own brands:</span>
             {OWN_BRANDS.map((brand) => (
               <Link
                 key={brand.slug}
                 href={`/brands/${brand.slug}`}
-                className="font-semibold text-blue-300 hover:text-white transition-colors"
+                className="font-semibold text-[#174A83] hover:text-[#D62836] transition-colors"
               >
                 {brand.name}
               </Link>

@@ -44,31 +44,31 @@ export function TechnicalInsights() {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-[#08090a] px-6 sm:px-8 border-t border-white/5 relative overflow-hidden" id="blog">
+    <section className="py-20 lg:py-28 bg-white px-6 sm:px-8 border-t border-gray-100 relative overflow-hidden" id="blog">
       <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Top Header (Fade In) */}
         <FadeIn direction="up">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
             <div className="space-y-4 max-w-xl">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#181d28] text-[11px] font-bold tracking-widest text-gray-300 uppercase border border-white/10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F3F6FA] text-[11px] font-bold tracking-widest text-[#174A83] uppercase border border-gray-200">
                 LATEST NEWS
               </span>
 
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15] font-heading">
-                Featured <span className="text-lime-400 sm:text-blue-400 font-extrabold">News &amp; Blogs</span><br />
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#102B46] tracking-tight leading-[1.15] font-heading">
+                Featured <span className="text-[#174A83] font-extrabold">News &amp; Blogs</span><br />
                 From Techmate
               </h2>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between lg:justify-end gap-6 lg:max-w-xl">
-              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-md">
+              <p className="text-xs sm:text-sm text-[#475467] leading-relaxed max-w-md">
                 Giving technical whitepapers, commercial equipment sizing guides, and kitchen engineering protocols authored by factory specialists.
               </p>
 
               <Link
                 href="/faqs"
-                className="text-sm font-bold text-white hover:text-blue-300 underline underline-offset-8 transition-colors shrink-0"
+                className="text-sm font-bold text-[#174A83] hover:text-[#D62836] underline underline-offset-8 transition-colors shrink-0"
               >
                 View All Blogs
               </Link>
@@ -81,10 +81,10 @@ export function TechnicalInsights() {
           {blogPosts.map((post) => (
             <StaggerItem key={post.id}>
               <HoverCard yOffset={-6} scale={1.015} className="h-full">
-                <article className="bg-[#11141c] border border-white/5 hover:border-white/20 transition-all rounded-3xl p-5 sm:p-6 flex flex-col justify-between group cursor-pointer shadow-xl h-full">
+                <article className="bg-[#F8FAFC] border border-gray-200/80 hover:border-[#174A83]/50 hover:bg-white transition-all rounded-3xl p-5 sm:p-6 flex flex-col justify-between group cursor-pointer shadow-sm hover:shadow-md h-full">
                   <div>
                     {/* Image Thumbnail with Date Badge on Bottom Right */}
-                    <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 bg-[#161a24]">
+                    <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 bg-[#F3F6FA]">
                       <Image
                         src={post.image}
                         alt={post.title}
@@ -94,14 +94,14 @@ export function TechnicalInsights() {
                       />
 
                       <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg bg-black/75 backdrop-blur-md text-[11px] font-mono text-white flex items-center gap-1.5 border border-white/10 z-10 shadow-md">
-                        <Calendar className="w-3.5 h-3.5 text-lime-400 sm:text-blue-400" />
+                        <Calendar className="w-3.5 h-3.5 text-blue-300" />
                         <span>{post.date}</span>
                       </div>
                     </div>
 
                     {/* Author Row */}
                     <div className="flex items-center gap-2.5 mb-3.5">
-                      <div className="relative w-7 h-7 rounded-full overflow-hidden border border-white/20 shrink-0 bg-[#181d28]">
+                      <div className="relative w-7 h-7 rounded-full overflow-hidden border border-gray-200 shrink-0 bg-white shadow-sm">
                         <Image
                           src={post.authorAvatar}
                           alt={post.author}
@@ -109,27 +109,27 @@ export function TechnicalInsights() {
                           className="object-cover"
                         />
                       </div>
-                      <span className="text-xs font-semibold text-gray-300">
+                      <span className="text-xs font-semibold text-[#344054]">
                         By {post.author}
                       </span>
                     </div>
 
                     {/* Blog Title */}
-                    <h3 className="text-lg sm:text-xl font-bold text-white font-heading leading-snug group-hover:text-blue-300 transition-colors mb-3">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#102B46] font-heading leading-snug group-hover:text-[#174A83] transition-colors mb-3">
                       {post.title}
                     </h3>
 
                     {/* Excerpt Paragraph */}
-                    <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-[#475467] leading-relaxed">
                       {post.excerpt}
                     </p>
                   </div>
 
                   {/* Bottom Link */}
-                  <div className="pt-6 mt-4 border-t border-white/5 flex items-center justify-between">
+                  <div className="pt-6 mt-4 border-t border-gray-200/80 flex items-center justify-between">
                     <Link
                       href={`/contact?subject=${encodeURIComponent(post.title)}`}
-                      className="text-xs font-bold text-lime-400 sm:text-blue-300 group-hover:text-white transition-colors flex items-center gap-1"
+                      className="text-xs font-bold text-[#174A83] group-hover:text-[#D62836] transition-colors flex items-center gap-1"
                     >
                       <span>Read Article</span>
                       <span aria-hidden="true">&rarr;</span>

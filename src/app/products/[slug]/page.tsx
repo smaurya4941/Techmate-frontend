@@ -1,15 +1,18 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { PageContainer } from '@/components/layout/PageContainer';
-import { ProductImage } from '@/components/products/ProductImage';
+import { ProductGallery } from '@/components/products/ProductGallery';
 import { ProductSpecificationList } from '@/components/products/ProductSpecificationList';
 import { RelatedProducts } from '@/components/products/RelatedProducts';
 import { SAMPLE_PRODUCTS } from '@/lib/products-data';
+import { getProduct, mapApiDetailToProductItem } from '@/lib/catalogue';
 import { Badge } from '@/components/ui/Badge';
+import type { ProductItem } from '@/types/product';
 import {
   ShieldCheck,
   Award,
@@ -20,6 +23,7 @@ import {
   Zap,
   HelpCircle,
   FileCheck,
+  FileText,
 } from 'lucide-react';
 
 interface ProductDetailPageProps {
@@ -28,16 +32,141 @@ interface ProductDetailPageProps {
   }>;
 }
 
+/** Pre-render all known sample products at build time */
+export async function generateStaticParams() {
+  return SAMPLE_PRODUCTS.map((p) => ({
+    slug: p.slug,
+  }));
+}
+
+/** Dynamic metadata per product */
+export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  let product: ProductItem | undefined = SAMPLE_PRODUCTS.find((p) => p.slug === slug);
+
+  if (!product) {
+    try {
+      const res = await getProduct(slug);
+      if (res?.data) {
+        product = mapApiDetailToProductItem(res.data);
+      }
+    } catch {
+      // not found
+    }
+  }
+
+  if (!product) {
+    return {
+      title: 'Product Not Found | Techmate Industries',
+    };
+  }
+
+  return {
+    title: `${product.name} (${product.modelNumber}) | Techmate Industries`,
+    description: product.shortDescription,
+    keywords: [
+      product.name,
+      product.modelNumber,
+      product.categoryName,
+      'commercial kitchen equipment',
+      'Techmate Industries',
+    ],
+    openGraph: {
+      title: `${product.name} | Techmate Industries`,
+      description: product.shortDescription,
+      images: [{ url: product.image, alt: product.name }],
+    },
+  };
+}
+
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = SAMPLE_PRODUCTS.find((p) => p.slug === slug);
+  let product: ProductItem | undefined = SAMPLE_PRODUCTS.find((p) => p.slug === slug);
+
+  // If not in static fixtures, fetch dynamically from the Laravel REST API
+  if (!product) {
+    try {
+      const res = await getProduct(slug);
+      if (res?.data) {
+        product = mapApiDetailToProductItem(res.data);
+      }
+    } catch {
+      // API unreachable or 404
+    }
+  }
 
   if (!product) {
     notFound();
   }
 
+  // Schema.org Product structured data
+  const jsonLdProduct = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.image,
+    description: product.fullDescription,
+    sku: product.modelNumber,
+    mpn: product.modelNumber,
+    brand: {
+      '@type': 'Brand',
+      name: product.brand || 'Techmate Industries',
+    },
+    category: product.categoryName,
+    offers: {
+      '@type': 'Offer',
+      url: `https://techmateindustries.com/products/${product.slug}`,
+      priceCurrency: 'INR',
+      price: '0.00',
+      priceValidUntil: '2027-12-31',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+    },
+  };
+
+  // Schema.org Breadcrumbs
+  const jsonLdBreadcrumbs = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://techmateindustries.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Products',
+        item: 'https://techmateindustries.com/products',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.categoryName,
+        item: `https://techmateindustries.com/products?category=${product.category}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: product.name,
+        item: `https://techmateindustries.com/products/${product.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProduct) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumbs) }}
+      />
+
       <Header />
 
       <main className="min-h-screen bg-[#F3F6FA]/50 py-8">
@@ -59,27 +188,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           {/* 1. Main Product Overview Grid (2 Columns on Desktop) */}
           <div className="bg-white rounded-3xl border border-gray-200/90 p-6 sm:p-10 shadow-sm mb-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-              {/* Left Column: Image Gallery & Certifications (5 cols) */}
+              {/* Left Column: Interactive Image Gallery (5 cols) */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-gray-50">
-                  <ProductImage
-                    src={product.image}
-                    alt={product.name}
-                    category={product.category}
-                    modelNumber={product.modelNumber}
-                    priority
-                  />
-                  <div className="absolute top-3 left-3 z-10 flex gap-2">
-                    <span className="px-3 py-1 rounded-md bg-[#102B46] text-white text-xs font-mono font-bold tracking-wider uppercase">
-                      {product.modelNumber}
-                    </span>
-                    {product.isFlagship && (
-                      <span className="px-2.5 py-1 rounded-md bg-[#D62836] text-white text-xs font-bold uppercase tracking-wider">
-                        Flagship
-                      </span>
-                    )}
-                  </div>
-                </div>
+                <ProductGallery
+                  primaryImage={product.image}
+                  galleryImages={product.galleryImages}
+                  productName={product.name}
+                  category={product.category}
+                  modelNumber={product.modelNumber}
+                  isFlagship={product.isFlagship}
+                />
 
                 {/* Badges / Guarantees */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
@@ -132,7 +250,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                       Model SKU: <strong className="font-mono text-[#102B46]">{product.modelNumber}</strong>
                     </span>
                     <span>•</span>
-                    <span>Brand: <strong className="text-[#102B46]">Techmate® Bake With Mate</strong></span>
+                    <span>
+                      Brand: <strong className="text-[#102B46]">{product.brand || 'Techmate® Heavy Duty'}</strong>
+                    </span>
                   </div>
 
                   {/* Description */}
@@ -154,13 +274,29 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                       ))}
                     </ul>
                   </div>
+
+                  {/* Download Brochure Link if Available */}
+                  {product.brochureUrl && (
+                    <div className="mt-4">
+                      <a
+                        href={product.brochureUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-bold text-[#174A83] hover:text-[#D62836] transition p-2 rounded-lg border border-gray-200 bg-white shadow-sm"
+                      >
+                        <FileText className="w-4 h-4 text-[#D62836]" />
+                        <span>Download Technical PDF Datasheet</span>
+                        <Download className="w-3.5 h-3.5 ml-1" />
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 {/* Direct Conversion Actions */}
                 <div className="pt-6 border-t border-gray-100 space-y-4">
                   <div className="flex flex-col sm:flex-row items-center gap-4">
                     <Link
-                      href={`/request-quote?product=${encodeURIComponent(product.name)}&sku=${encodeURIComponent(product.modelNumber)}`}
+                      href={`/request-quote?product=${encodeURIComponent(product.name)}&sku=${encodeURIComponent(product.modelNumber)}&slug=${encodeURIComponent(product.slug)}`}
                       className="w-full sm:w-auto flex-1 inline-flex items-center justify-center px-8 py-4 rounded-xl text-sm font-extrabold text-white bg-[#D62836] hover:bg-[#b81d29] shadow-lg shadow-[#D62836]/25 transition transform hover:-translate-y-0.5"
                     >
                       <span>Request Official Price Quotation</span>

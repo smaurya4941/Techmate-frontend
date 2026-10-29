@@ -47,6 +47,8 @@ interface RequestOptions {
   timeoutMs?: number;
   /** Next.js fetch cache hint for server-side reads. */
   revalidate?: number | false;
+  /** Extra request headers, e.g. Idempotency-Key for safely retried submissions. */
+  headers?: Record<string, string>;
 }
 
 /**
@@ -54,7 +56,7 @@ interface RequestOptions {
  * never surfaces raw server text.
  */
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const { method = 'GET', body, query, signal, timeoutMs = 10000, revalidate } = options;
+  const { method = 'GET', body, query, signal, timeoutMs = 10000, revalidate, headers } = options;
 
   const url = new URL(`${getApiBaseUrl()}/v1${path}`);
   for (const [key, value] of Object.entries(query ?? {})) {
@@ -72,6 +74,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
       headers: {
         Accept: 'application/json',
         ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...headers,
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
       signal: controller.signal,

@@ -9,9 +9,9 @@ import { motion } from 'framer-motion';
 
 export function SplitCtaBanner() {
   return (
-    <section className="py-20 lg:py-28 bg-[#08090a] px-6 sm:px-8 border-t border-white/5 relative overflow-hidden" id="cta-banner">
+    <section className="py-20 lg:py-28 bg-white px-6 sm:px-8 border-t border-gray-100 relative overflow-hidden" id="cta-banner">
       <div className="max-w-7xl mx-auto">
-        <div className="relative rounded-[36px] overflow-hidden bg-[#0d1017] border border-white/10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-center min-h-[500px]">
+        <div className="relative rounded-[36px] overflow-hidden bg-[#102B46] border border-blue-900/40 shadow-2xl grid grid-cols-1 lg:grid-cols-12 items-center min-h-[500px]">
           
           {/* Left Column: Full-Bleed Photographic Composition (Fade In Left) */}
           <div className="lg:col-span-6 relative w-full h-[400px] sm:h-[480px] lg:h-full min-h-[440px]">
@@ -24,7 +24,7 @@ export function SplitCtaBanner() {
                   priority
                   className="object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black/40 via-transparent to-[#0d1017]/80" />
+                <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black/40 via-transparent to-[#102B46]/90" />
               </div>
             </FadeIn>
           </div>
@@ -60,10 +60,10 @@ export function SplitCtaBanner() {
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="inline-block">
                     <Link
                       href="/contact"
-                      className="inline-flex items-center justify-center px-9 py-4 rounded-xl bg-[#0a0d14] hover:bg-[#121622] text-white font-bold text-sm tracking-wide shadow-xl transition-all border border-white/10"
+                      className="inline-flex items-center justify-center px-9 py-4 rounded-xl bg-[#D62836] hover:bg-[#b81d29] text-white font-bold text-sm tracking-wide shadow-xl shadow-[#D62836]/30 transition-all"
                     >
                       <span>Contact Us</span>
-                      <ArrowRight className="w-4 h-4 ml-2.5 text-blue-300" />
+                      <ArrowRight className="w-4 h-4 ml-2.5 text-white" />
                     </Link>
                   </motion.div>
                 </div>

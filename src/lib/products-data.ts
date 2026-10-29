@@ -1,4 +1,4 @@
-import { ProductItem, CategoryInfo, SubCategoryInfo, EquipmentCategory } from '@/types/product';
+﻿import { ProductItem, CategoryInfo, SubCategoryInfo, EquipmentCategory } from '@/types/product';
 
 /**
  * DEVELOPMENT FIXTURE DATA (Phase 2 Prototype)
@@ -146,8 +146,8 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
       'Energy-efficient triple-glazed thermal viewing door',
     ],
     specifications: [
-      { label: 'External Dimensions (W×D×H)', value: '875 × 795 × 1060', unit: 'mm', group: 'Dimensions & Weight' },
-      { label: 'Tray Capacity', value: '10 × GN 1/1 or 10 × 600×400', unit: 'Pans', group: 'Capacity & Output' },
+      { label: 'External Dimensions (WÃ—DÃ—H)', value: '875 Ã— 795 Ã— 1060', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Tray Capacity', value: '10 Ã— GN 1/1 or 10 Ã— 600Ã—400', unit: 'Pans', group: 'Capacity & Output' },
       { label: 'Electrical Connection', value: '415V, 3-Phase, 50Hz', unit: 'V', group: 'Electrical & Thermal' },
       { label: 'Connected Power Load', value: '18.5', unit: 'kW', group: 'Electrical & Thermal' },
       { label: 'Temperature Range', value: '30°C to 300°C', group: 'Electrical & Thermal' },
@@ -171,17 +171,17 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
     warrantyPeriod: '1 Year Factory Warranty + AMC Support',
     certifications: ['ISO 9001:2015', 'BIS Approved Gas Fittings'],
     keyHighlights: [
-      '6 Heavy cast-iron open burners (3 × 7.5 kW + 3 × 5.5 kW)',
+      '6 Heavy cast-iron open burners (3 Ã— 7.5 kW + 3 Ã— 5.5 kW)',
       'Heavy-gauge 1.5mm AISI 304 seamless pressed top',
       'Integrated static gas oven accommodating GN 2/1 trays',
       'Flame failure device (FFD) on all burners',
     ],
     specifications: [
-      { label: 'Dimensions (W×D×H)', value: '1200 × 900 × 850+150', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Dimensions (WÃ—DÃ—H)', value: '1200 Ã— 900 Ã— 850+150', unit: 'mm', group: 'Dimensions & Weight' },
       { label: 'Burner Configuration', value: '6 Individual Cast Iron Burners', group: 'Capacity & Output' },
       { label: 'Total Gas Output', value: '45.0', unit: 'kW (153,500 BTU/hr)', group: 'Electrical & Thermal' },
       { label: 'Gas Inlet Connection', value: '3/4" BSP (LPG / Natural Gas)', group: 'Construction & Material' },
-      { label: 'Oven Dimensions', value: '680 × 580 × 340', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Oven Dimensions', value: '680 Ã— 580 Ã— 340', unit: 'mm', group: 'Dimensions & Weight' },
       { label: 'Top Plate Material', value: 'AISI 304 (1.5mm Thickness)', group: 'Construction & Material' },
     ],
   },
@@ -206,7 +206,7 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
       'Heavy-duty stainless steel safety cage with microswitch interlock',
     ],
     specifications: [
-      { label: 'Dimensions (W×D×H)', value: '750 × 1220 × 1380', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Dimensions (WÃ—DÃ—H)', value: '750 Ã— 1220 Ã— 1380', unit: 'mm', group: 'Dimensions & Weight' },
       { label: 'Bowl Volume', value: '150', unit: 'Litres', group: 'Capacity & Output' },
       { label: 'Max Dough Capacity', value: '100', unit: 'kg per batch', group: 'Capacity & Output' },
       { label: 'Power Rating', value: '5.5 kW (Hook) + 0.75 kW (Bowl)', unit: 'kW', group: 'Electrical & Thermal' },
@@ -235,7 +235,7 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
       'Energy-efficient Danfoss hermetic compressor with R290 gas',
     ],
     specifications: [
-      { label: 'Dimensions (W×D×H)', value: '1220 × 820 × 2050', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Dimensions (WÃ—DÃ—H)', value: '1220 Ã— 820 Ã— 2050', unit: 'mm', group: 'Dimensions & Weight' },
       { label: 'Operating Temperature', value: '-2°C to +8°C', group: 'Electrical & Thermal' },
       { label: 'Gross Volume', value: '1000', unit: 'Litres', group: 'Capacity & Output' },
       { label: 'Compressor', value: 'Danfoss / Embraco Tropicalized', group: 'Electrical & Thermal' },
@@ -264,8 +264,8 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
       'Automatic switch to holding temperature at cycle completion',
     ],
     specifications: [
-      { label: 'Dimensions (W×D×H)', value: '800 × 820 × 1640', unit: 'mm', group: 'Dimensions & Weight' },
-      { label: 'Tray Capacity', value: '10 × GN 1/1 or 10 × 600×400 Trays', group: 'Capacity & Output' },
+      { label: 'Dimensions (WÃ—DÃ—H)', value: '800 Ã— 820 Ã— 1640', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Tray Capacity', value: '10 Ã— GN 1/1 or 10 Ã— 600Ã—400 Trays', group: 'Capacity & Output' },
       { label: 'Connected Load', value: '2.8', unit: 'kW', group: 'Electrical & Thermal' },
       { label: 'Power Supply', value: '230V / 50Hz / 16A Single Phase', group: 'Electrical & Thermal' },
       { label: 'Chamber Material', value: 'Full AISI 304 with Coved Corners', group: 'Construction & Material' },
@@ -287,13 +287,13 @@ export const SAMPLE_PRODUCTS: ProductItem[] = [
     certifications: ['ISO 9001:2015', 'Food Grade Stainless Certificate'],
     keyHighlights: [
       'Heavy-gauge 1.5mm AISI 304 stainless top plate',
-      'Integrated deep-drawn sink bowl (500×500×300mm)',
+      'Integrated deep-drawn sink bowl (500Ã—500Ã—300mm)',
       'Anti-corrosion sound-deadening underside lining',
       'Solid tubular stainless steel legs with bullet feet',
     ],
     specifications: [
-      { label: 'Dimensions (W×D×H)', value: '2400 × 750 × 850 + 100 Backsplash', unit: 'mm', group: 'Dimensions & Weight' },
-      { label: 'Sink Bowl Dimensions', value: '500 × 500 × 300', unit: 'mm', group: 'Capacity & Output' },
+      { label: 'Dimensions (WÃ—DÃ—H)', value: '2400 Ã— 750 Ã— 850 + 100 Backsplash', unit: 'mm', group: 'Dimensions & Weight' },
+      { label: 'Sink Bowl Dimensions', value: '500 Ã— 500 Ã— 300', unit: 'mm', group: 'Capacity & Output' },
       { label: 'Top Sheet Thickness', value: '16 Gauge (1.5mm) AISI 304', group: 'Construction & Material' },
       { label: 'Under-Shelf', value: '18 Gauge (1.2mm) Removable Shelf', group: 'Construction & Material' },
       { label: 'Load Capacity', value: '450', unit: 'kg Uniform Load', group: 'Capacity & Output' },
@@ -344,3 +344,4 @@ export function countProductsInSubCategory(slug: string): number {
 export function getSubCategoriesOf(category: string): SubCategoryInfo[] {
   return SUBCATEGORIES_DATA.filter((s) => s.category === category);
 }
+

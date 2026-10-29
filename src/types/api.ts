@@ -114,7 +114,11 @@ export interface EnquiryPayload {
   company_name?: string;
   subject: string;
   message: string;
-  source?: 'website' | 'contact_page' | 'home_page';
+  source?: 'website' | 'contact_page' | 'home_page' | 'product_page' | 'category_page';
+  /** Added automatically by submitEnquiry: the site path the form was on. */
+  source_page?: string;
+  /** Added automatically by submitEnquiry: utm_campaign, when present. */
+  campaign?: string;
   hp_field?: string;
 }
 
@@ -132,7 +136,9 @@ export interface QuoteRequestPayload {
   company_name?: string;
   message?: string;
   business_type?: 'restaurant' | 'bakery' | 'cloud-kitchen' | 'catering' | 'dealer' | 'other';
-  source?: 'website' | 'request_quote_page' | 'product_page' | 'home_page';
+  source?: 'website' | 'request_quote_page' | 'product_page' | 'category_page' | 'home_page';
+  source_page?: string;
+  campaign?: string;
   items: QuoteItemPayload[];
   hp_field?: string;
 }

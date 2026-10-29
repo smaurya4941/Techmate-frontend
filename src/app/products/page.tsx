@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -16,8 +16,9 @@ import {
   getSubCategory,
   getSubCategoriesOf,
 } from '@/lib/products-data';
-import { Filter, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { getProducts, mapApiSummaryToProductItem } from '@/lib/catalogue';
+import type { ProductItem } from '@/types/product';
+import { SlidersHorizontal } from 'lucide-react';
 
 function ProductListingContent() {
   const router = useRouter();
@@ -27,9 +28,39 @@ function ProductListingContent() {
   const subCategoryParam = searchParams.get('subcategory');
   const searchParam = searchParams.get('search');
 
-  // Category and sub-category live in the URL so links from the menu, footer and
-  // brand pages are shareable and the browser back button works. Unknown values
-  // fall back to "all" instead of rendering an empty catalogue.
+  // Dynamic products state merging live API products with fallback catalogue
+  const [allProducts, setAllProducts] = useState<ProductItem[]>(SAMPLE_PRODUCTS);
+  const [isLoadingApi, setIsLoadingApi] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadApiProducts() {
+      try {
+        setIsLoadingApi(true);
+        const res = await getProducts({ per_page: 50 });
+        if (isMounted && res?.data && res.data.length > 0) {
+          const apiItems = res.data.map(mapApiSummaryToProductItem);
+          // Deduplicate by slug against SAMPLE_PRODUCTS, giving precedence to API items
+          const apiSlugs = new Set(apiItems.map((p) => p.slug));
+          const combined = [
+            ...apiItems,
+            ...SAMPLE_PRODUCTS.filter((p) => !apiSlugs.has(p.slug)),
+          ];
+          setAllProducts(combined);
+        }
+      } catch {
+        // Keep fallback sample products
+      } finally {
+        if (isMounted) setIsLoadingApi(false);
+      }
+    }
+
+    loadApiProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const selectedCategory =
     categoryParam && CATEGORIES_DATA.some((c) => c.slug === categoryParam) ? categoryParam : 'all';
   const selectedSubCategory =
@@ -48,8 +79,7 @@ function ProductListingContent() {
 
   const ITEMS_PER_PAGE = 6;
 
-  // Sync search from the URL (header search box) and reset to page 1 whenever the
-  // URL-driven filters change. State is adjusted during render rather than in an effect.
+  // Sync search from the URL
   const [prevSearchParam, setPrevSearchParam] = useState(searchParam);
   if (searchParam !== prevSearchParam) {
     setPrevSearchParam(searchParam);
@@ -58,6 +88,7 @@ function ProductListingContent() {
       setCurrentPage(1);
     }
   }
+
   const filterKey = `${selectedCategory}/${selectedSubCategory}`;
   const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
   if (filterKey !== prevFilterKey) {
@@ -104,7 +135,7 @@ function ProductListingContent() {
 
   // Filter calculations
   const filteredProducts = useMemo(() => {
-    return SAMPLE_PRODUCTS.filter((item) => {
+    return allProducts.filter((item) => {
       // Category filter
       if (selectedCategory !== 'all' && item.category !== selectedCategory) {
         return false;
@@ -140,7 +171,7 @@ function ProductListingContent() {
       }
       return a.name.localeCompare(b.name);
     });
-  }, [selectedCategory, selectedSubCategory, selectedPower, searchQuery, sortBy]);
+  }, [allProducts, selectedCategory, selectedSubCategory, selectedPower, searchQuery, sortBy]);
 
   // Pagination slice
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -186,7 +217,7 @@ function ProductListingContent() {
           {/* Page Heading & Intro */}
           <div className="bg-white rounded-2xl border border-gray-200/90 p-6 sm:p-8 mb-8 shadow-sm">
             <div className="max-w-3xl">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#174A83] block mb-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#174A83] block mb-1 font-mono">
                 INDUSTRIAL SPECIFICATION CATALOGUE
               </span>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-[#102B46] font-heading">
@@ -275,6 +306,7 @@ function ProductListingContent() {
                   Showing <strong className="text-[#102B46]">{filteredProducts.length}</strong> equipment models
                   {selectedCategory !== 'all' &&
                     ` in ${currentSubCategoryObj?.name || currentCategoryObj?.name || selectedCategory}`}
+                  {isLoadingApi && <span className="ml-2 text-blue-600 font-mono">(Syncing...)</span>}
                 </span>
                 <span className="text-[11px] font-mono text-gray-400">
                   Direct Factory Supply • ISO 9001:2015

@@ -112,7 +112,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
           </Link>
 
           <Link
-            href={`/request-quote?product=${encodeURIComponent(product.name)}&sku=${encodeURIComponent(product.modelNumber)}`}
+            href={`/request-quote?product=${encodeURIComponent(product.name)}&sku=${encodeURIComponent(product.modelNumber)}&slug=${encodeURIComponent(product.slug)}`}
             className="inline-flex items-center justify-center px-3 py-2 rounded-lg text-xs font-bold text-white bg-[#D62836] hover:bg-[#b81d29] shadow-sm shadow-[#D62836]/20 transition text-center"
           >
             <span>Get Quote</span>

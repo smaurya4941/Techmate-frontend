@@ -36,7 +36,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0d14] text-gray-200 antialiased selection:bg-[#D62836] selection:text-white relative">
+    <div className="min-h-screen flex flex-col bg-white text-brand-slate antialiased selection:bg-[#D62836] selection:text-white relative">
       {/* 1. Header with Top Utility Bar & Official Techmate Brand Logo */}
       <Header apiHealthStatus={apiStatus} />
 

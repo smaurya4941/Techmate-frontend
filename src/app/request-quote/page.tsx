@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { Alert } from '@/components/ui/Alert';
 import { Honeypot } from '@/components/ui/Honeypot';
 import { ApiError } from '@/lib/http';
-import { mapFieldErrors, submitQuoteRequest } from '@/lib/submissions';
+import { mapFieldErrors, newSubmissionKey, submitQuoteRequest } from '@/lib/submissions';
 import type { QuoteRequestPayload } from '@/types/api';
 import {
   FileText,
@@ -50,6 +50,9 @@ function RequestQuoteContent() {
   const searchParams = useSearchParams();
   const productParam = searchParams.get('product') || '';
   const skuParam = searchParams.get('sku') || '';
+  // Slug of the catalogue product the visitor came from; lets the lead link to the real product.
+  const slugParam = searchParams.get('slug') || '';
+  const submissionKey = useRef(newSubmissionKey());
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -113,25 +116,39 @@ function RequestQuoteContent() {
     setSubmitError('');
     try {
       const quantity = QUANTITY_MAP[formData.quantity] ?? { count: 1, note: undefined };
-      const ref = await submitQuoteRequest({
+      const requirement = formData.equipmentRequirement.trim().slice(0, 200);
+      const prefilled = productParam ? (skuParam ? `${productParam} (${skuParam})` : productParam) : '';
+      // Arrived from a product page and left the requirement untouched: reference the catalogue product.
+      const fromProduct = Boolean(slugParam) && requirement === prefilled.slice(0, 200);
+
+      const build = (linkProduct: boolean): QuoteRequestPayload => ({
         customer_name: formData.fullName.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim(),
         company_name: formData.companyName.trim(),
         business_type: formData.businessType as QuoteRequestPayload['business_type'],
         message: formData.message.trim() || undefined,
-        source: 'request_quote_page',
-        // The on-site catalogue is not yet served from the API, so the requirement
-        // is sent as a described line item (the API also accepts catalogue slugs).
+        source: linkProduct ? 'product_page' : 'request_quote_page',
         items: [
-          {
-            name: formData.equipmentRequirement.trim().slice(0, 200),
-            quantity: quantity.count,
-            notes: quantity.note,
-          },
+          linkProduct
+            ? { product: slugParam, quantity: quantity.count, notes: quantity.note }
+            : { name: requirement, quantity: quantity.count, notes: quantity.note },
         ],
         hp_field: honeypot || undefined,
       });
+
+      let ref: string;
+      try {
+        ref = await submitQuoteRequest(build(fromProduct), submissionKey.current);
+      } catch (error) {
+        // The product may not be published in the API catalogue (e.g. sample data): fall back to a described line.
+        if (fromProduct && error instanceof ApiError && error.isValidation && error.fieldErrors['items.0.product']) {
+          ref = await submitQuoteRequest(build(false), submissionKey.current);
+        } else {
+          throw error;
+        }
+      }
+      submissionKey.current = newSubmissionKey();
       setReference(ref);
       setIsSuccess(true);
     } catch (error) {

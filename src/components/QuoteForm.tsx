@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Phone, Clock, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { FadeIn } from '@/components/animations/MotionWrapper';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Honeypot } from '@/components/ui/Honeypot';
 import { ApiError } from '@/lib/http';
-import { submitEnquiry } from '@/lib/submissions';
+import { newSubmissionKey, submitEnquiry } from '@/lib/submissions';
 
 export function QuoteForm() {
+  const submissionKey = useRef(newSubmissionKey());
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -50,7 +51,8 @@ export function QuoteForm() {
           : `Consultation requested from the homepage. ${formData.message.trim()}`.trim(),
         source: 'home_page',
         hp_field: honeypot || undefined,
-      });
+      }, submissionKey.current);
+      submissionKey.current = newSubmissionKey();
       setReference(ref);
       setSubmitted(true);
     } catch (error) {
@@ -66,27 +68,25 @@ export function QuoteForm() {
   };
 
   return (
-    <section className="py-24 bg-[#0a0d14] px-6 sm:px-8" id="quote-form">
-      {/* Glowing Border Container (Bizznep Layout with FadeIn) */}
+    <section className="py-24 bg-[#F8FAFC] px-6 sm:px-8 border-t border-gray-200" id="quote-form">
       <FadeIn direction="up">
-        <div className="max-w-6xl mx-auto p-1.5 sm:p-2.5 rounded-[36px] bg-gradient-to-b from-[#174A83] via-[#174A83]/20 to-transparent glow-blue-border">
-        <div className="rounded-[30px] bg-[#121620] p-8 sm:p-14 text-white">
+        <div className="max-w-6xl mx-auto rounded-[36px] bg-[#102B46] border border-blue-900/40 p-8 sm:p-14 text-white shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Left Info Column (Bizznep Layout) */}
+            {/* Left Info Column */}
             <div className="lg:col-span-5 space-y-6">
-              <span className="inline-block px-4 py-1 rounded-full bg-[#1e2330] text-xs font-bold tracking-wider text-blue-200 uppercase border border-white/10">
+              <span className="inline-block px-4 py-1 rounded-full bg-white/10 text-xs font-bold tracking-wider text-blue-200 uppercase border border-white/15">
                 APPOINTMENT &amp; QUOTE
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-heading">
                 Schedule Kitchen Consultation
               </h2>
-              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-blue-100/80 leading-relaxed">
                 Connect directly with Techmate factory engineers to discuss commercial kitchen machinery specifications, custom dimensions, and formal quotation pricing.
               </p>
 
               {/* Phone Widget */}
               <div className="flex items-center gap-4 pt-4">
-                <div className="w-12 h-12 rounded-xl bg-transparent border border-white/20 flex items-center justify-center text-white shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
                   <Phone className="w-5 h-5 text-[#D62836]" />
                 </div>
                 <div>
@@ -99,18 +99,18 @@ export function QuoteForm() {
 
               {/* Opening Hour Widget */}
               <div className="flex items-center gap-4 pt-2">
-                <div className="w-12 h-12 rounded-xl bg-transparent border border-white/20 flex items-center justify-center text-white shrink-0">
-                  <Clock className="w-5 h-5 text-blue-400" />
+                <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
+                  <Clock className="w-5 h-5 text-blue-300" />
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-blue-300">Plant &amp; Office Hours</span>
                   <span className="text-sm font-semibold text-white">Mon - Sat (08:30 - 19:00 IST)</span>
-                  <span className="block text-xs text-gray-400">Sunday Closed (Breakdown Hotline Open)</span>
+                  <span className="block text-xs text-blue-200/70">Sunday Closed (Breakdown Hotline Open)</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Form Column with Underline Inputs (Bizznep Layout) */}
+            {/* Right Form Column with Underline Inputs */}
             <div className="lg:col-span-7">
               {submitted ? (
                 <div className="text-center py-12 space-y-4">
@@ -246,8 +246,7 @@ export function QuoteForm() {
             </div>
           </div>
         </div>
-      </div>
-    </FadeIn>
+      </FadeIn>
     </section>
   );
 }

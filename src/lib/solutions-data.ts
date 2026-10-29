@@ -1,4 +1,4 @@
-import type { EquipmentCategory } from '@/types/product';
+﻿import type { EquipmentCategory } from '@/types/product';
 
 /**
  * Industry solutions. Titles and `description` are the real website content supplied by Techmate.

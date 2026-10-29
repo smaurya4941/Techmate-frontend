@@ -22,18 +22,18 @@ export function MetricsTicker() {
   return (
     <div className="w-full relative z-20">
       {/* 1. Category Consultation Ribbon */}
-      <section className="bg-[#0e1014] border-t border-b border-white/10 py-5">
+      <section className="bg-[#F3F6FA] border-t border-b border-gray-200 py-5">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <FadeIn direction="none" duration={0.6}>
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200 text-center">
               {ribbons.map((item, idx) => (
                 <div key={idx} className="py-2.5 md:py-1 px-4 flex items-center justify-center">
                   <Link
                     href={item.href}
                     className={`text-xs sm:text-sm font-extrabold tracking-widest uppercase transition-colors flex items-center gap-2 ${
                       item.highlight
-                        ? 'text-[#174A83] sm:text-blue-400 hover:text-white'
-                        : 'text-gray-300 hover:text-white'
+                        ? 'text-[#174A83] hover:text-[#D62836]'
+                        : 'text-[#344054] hover:text-[#174A83]'
                     }`}
                   >
                     {item.highlight && (
