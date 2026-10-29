@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import { SITE } from '@/lib/site-config';
 import { Phone, Clock, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { FadeIn } from '@/components/animations/MotionWrapper';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -91,8 +92,8 @@ export function QuoteForm() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-blue-300">*Direct Phone</span>
-                  <a href="tel:+918008324628" className="text-base font-bold text-white tracking-wide hover:underline">
-                    +91 800-TECHMATE
+                  <a href={"tel:" + SITE.phone.tel} className="text-base font-bold text-white tracking-wide hover:underline">
+                    {SITE.phone.display}
                   </a>
                 </div>
               </div>

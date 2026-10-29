@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Honeypot } from '@/components/ui/Honeypot';
 import { ApiError } from '@/lib/http';
 import { mapFieldErrors, newSubmissionKey, submitEnquiry } from '@/lib/submissions';
-import { buildWhatsAppUrl } from '@/lib/site-config';
+import { COMPANY, SITE, buildWhatsAppUrl } from '@/lib/site-config';
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import {
   MapPin,
@@ -331,10 +331,10 @@ export default function ContactPage() {
               <div className="bg-[#102B46] text-white rounded-[32px] p-8 sm:p-10 space-y-6 shadow-2xl border border-white/10">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#D62836] font-mono">
-                    HEAD OFFICE &amp; MANUFACTURING
+                    HEAD OFFICE &amp; OFFICES
                   </span>
                   <h3 className="text-2xl font-bold font-heading text-white mt-1">
-                    Techmate Industries Plant
+                    Techmate Industries
                   </h3>
                 </div>
 
@@ -344,10 +344,18 @@ export default function ContactPage() {
                       <MapPin className="w-5 h-5 text-[#D62836]" />
                     </div>
                     <div>
-                      <strong className="block text-white mb-0.5">Factory &amp; Experience Centre:</strong>
-                      <span className="text-gray-300 leading-relaxed">
-                        Plot C-48, TTC Industrial Area, MIDC Pawane, Navi Mumbai, Maharashtra 400705, India
-                      </span>
+                      <div className="space-y-3">
+                        {COMPANY.offices.map((office) => (
+                          <div key={office.label}>
+                            <strong className="block text-white mb-0.5">{office.label}:</strong>
+                            <span className="text-gray-300 leading-relaxed block">
+                              {office.lines.map((line) => (
+                                <span key={line} className="block">{line}</span>
+                              ))}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
@@ -356,12 +364,9 @@ export default function ContactPage() {
                       <Phone className="w-5 h-5 text-blue-400" />
                     </div>
                     <div>
-                      <strong className="block text-white mb-0.5">Phone &amp; Toll Free Hotline:</strong>
-                      <a href="tel:+918008324628" className="hover:text-blue-300 transition-colors font-bold block">
-                        +91 800-TECHMATE (832-4628)
-                      </a>
-                      <a href="tel:+912227788900" className="text-xs text-gray-400 hover:text-white transition-colors">
-                        Landline: +91 (022) 2778-8900
+                      <strong className="block text-white mb-0.5">Phone:</strong>
+                      <a href={'tel:' + SITE.phone.tel} className="hover:text-blue-300 transition-colors font-bold block">
+                        {SITE.phone.display}
                       </a>
                     </div>
                   </div>
@@ -378,7 +383,7 @@ export default function ContactPage() {
                         rel="noopener noreferrer"
                         className="hover:text-blue-300 transition-colors font-bold block"
                       >
-                        +91 800-TECHMATE (832-4628)
+                        Chat with us on WhatsApp
                       </a>
                     </div>
                   </div>
@@ -389,11 +394,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <strong className="block text-white mb-0.5">Official Technical Inquiries:</strong>
-                      <a href="mailto:sales@techmateindustries.com" className="hover:text-blue-300 transition-colors block">
-                        sales@techmateindustries.com
-                      </a>
-                      <a href="mailto:quotes@techmateindustries.com" className="text-xs text-gray-400 hover:text-white transition-colors">
-                        quotes@techmateindustries.com
+                      <a href={'mailto:' + SITE.email} className="hover:text-blue-300 transition-colors block">
+                        {SITE.email}
                       </a>
                     </div>
                   </div>
@@ -412,7 +414,7 @@ export default function ContactPage() {
 
                 <div className="pt-4 border-t border-white/15 flex items-center gap-2.5 text-xs text-blue-200">
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Factory visits welcomed by prior appointment.</span>
+                  <span>Visits by prior appointment.</span>
                 </div>
               </div>
 

@@ -44,6 +44,12 @@ export interface ProductItem {
   subCategory?: string;
   /** Slug of a partner BrandInfo when the product is supplied under a third-party brand. */
   brand?: string;
+  /** Display name of the brand (admin-managed brands may not exist in the built-in brand list). */
+  brandName?: string;
+  /** Indicative list price in INR; the final quotation applies. Omit for price on request. */
+  price?: number;
+  /** ISO currency code for `price`; INR when omitted. */
+  currency?: string;
   shortDescription: string;
   fullDescription: string;
   image: string;
@@ -52,9 +58,9 @@ export interface ProductItem {
   specifications: ProductSpecification[];
   brochureUrl?: string;
   isFlagship?: boolean;
-  warrantyPeriod: string;
-  certifications: string[];
-  powerSource: 'Electric' | 'Gas' | 'Dual Fuel' | 'Passive';
+  warrantyPeriod?: string;
+  certifications?: string[];
+  powerSource?: 'Electric' | 'Gas' | 'Dual Fuel' | 'Passive';
 }
 
 export interface FilterState {

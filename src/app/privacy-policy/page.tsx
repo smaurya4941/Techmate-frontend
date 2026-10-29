@@ -1,4 +1,5 @@
 import React from 'react';
+import { SITE } from '@/lib/site-config';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -65,8 +66,8 @@ export default function PrivacyPolicyPage() {
               </h3>
               <p>
                 If you have questions regarding your data or wish to update your business contact records, please contact our compliance desk at{' '}
-                <a href="mailto:privacy@techmateindustries.com" className="text-[#174A83] font-bold underline">
-                  privacy@techmateindustries.com
+                <a href={"mailto:" + SITE.email} className="text-[#174A83] font-bold underline">
+                  {SITE.email}
                 </a>.
               </p>
             </div>

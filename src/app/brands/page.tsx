@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { OWN_BRANDS, PARTNER_BRANDS, getBrandCategories, getBrandProducts } from '@/lib/brands-data';
+import { BrandLogo } from '@/components/brands/BrandLogo';
 import { Award, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -46,9 +47,9 @@ export default function BrandsPage() {
                 <li key={brand.slug}>
                   <Link
                     href={`/brands/${brand.slug}`}
-                    className="h-28 flex flex-col items-center justify-center gap-1 text-center px-4 rounded-2xl bg-white border border-gray-200/90 shadow-sm hover:border-[#174A83] hover:shadow-md transition font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
+                    className="h-32 flex flex-col items-center justify-center gap-1.5 text-center px-4 rounded-2xl bg-white border border-gray-200/90 shadow-sm hover:border-[#174A83] hover:shadow-md transition font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
                   >
-                    <span>{brand.name}</span>
+                    <BrandLogo brand={brand} className="h-14" />
                     {brand.country && (
                       <span className="text-[11px] font-sans font-semibold text-gray-400">{brand.country}</span>
                     )}

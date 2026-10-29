@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Send,
 } from 'lucide-react';
-import { buildWhatsAppUrl } from '@/lib/site-config';
+import { ADDRESS_ONE_LINE, COMPANY, SITE, buildWhatsAppUrl } from '@/lib/site-config';
 import { CATEGORIES_DATA } from '@/lib/products-data';
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
@@ -71,12 +71,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Column 1: Brand & Certification (4 cols) */}
           <div className="lg:col-span-4 space-y-5">
-            <Link href="/" className="inline-block bg-white px-3 py-2 rounded-xl shadow">
+            <Link href="/" className="inline-block bg-white px-3.5 py-2.5 rounded-xl shadow-md hover:opacity-95 transition-opacity" aria-label="Techmate Industries Home">
               <Image
-                src="/images/techmate-logo.png"
-                alt="Techmate Industries - Bake With Mate"
-                width={150}
-                height={50}
+                src="/images/techmate-logo.png?v=2"
+                alt="Techmate Industries - Technifying Your Kitchen"
+                width={130}
+                height={84}
+                unoptimized
                 className="object-contain"
               />
             </Link>
@@ -209,11 +210,11 @@ export function Footer() {
             <div className="text-xs text-gray-300 space-y-3">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#D62836] shrink-0 mt-0.5" />
-                <span>Plot C-48, TTC Industrial Area, MIDC Pawane, Navi Mumbai, MH 400705</span>
+                <span>{ADDRESS_ONE_LINE}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#D62836] shrink-0" />
-                <span>+91 800-TECHMATE (832-4628)</span>
+                <span>{SITE.phone.display}</span>
               </div>
               <a
                 href={buildWhatsAppUrl()}
@@ -226,7 +227,7 @@ export function Footer() {
               </a>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#D62836] shrink-0" />
-                <span>sales@techmateindustries.com</span>
+                <span>{SITE.email}</span>
               </div>
             </div>
 
@@ -266,6 +267,9 @@ export function Footer() {
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
           <div>
             &copy; {new Date().getFullYear()} Techmate Industries Pvt. Ltd. All rights reserved.
+            <span className="block mt-1 text-[11px] text-gray-500">
+              {COMPANY.registrations.map((r) => r.label + ' ' + r.value).join(' | ')}
+            </span>
           </div>
           <div className="flex items-center flex-wrap gap-6 text-gray-400">
             <Link href="/privacy-policy" className="hover:text-white transition-colors">

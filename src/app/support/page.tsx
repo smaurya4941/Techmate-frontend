@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { SITE } from '@/lib/site-config';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -103,7 +104,7 @@ export default function SupportPage() {
                 Direct dispatch of technicians for combi ovens, refrigeration chillers, and rotary bakery machinery.
               </p>
               <div className="text-xs font-mono font-bold text-[#D62836] flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5" /> +91 800-TECHMATE
+                <Phone className="w-3.5 h-3.5" /> {SITE.phone.display}
               </div>
             </div>
 

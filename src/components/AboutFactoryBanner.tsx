@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ADDRESS_ONE_LINE, SITE } from '@/lib/site-config';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -106,7 +107,7 @@ export function AboutFactoryBanner() {
 
                 <div className="flex items-center gap-3">
                   <a
-                    href="tel:+912227788900"
+                    href={"tel:" + SITE.phone.tel}
                     className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#174A83] hover:border-[#174A83] transition-all shrink-0 shadow-sm"
                     aria-label="Call Techmate Factory Desk"
                   >
@@ -117,10 +118,10 @@ export function AboutFactoryBanner() {
                       Have Any Questions?
                     </span>
                     <a
-                      href="tel:+912227788900"
+                      href={"tel:" + SITE.phone.tel}
                       className="text-sm sm:text-base font-bold text-[#102B46] hover:text-[#174A83] transition-colors font-heading tracking-wide"
                     >
-                      +91 (022) 2778-8900
+                      {SITE.phone.display}
                     </a>
                   </div>
                 </div>
@@ -191,7 +192,7 @@ export function AboutFactoryBanner() {
                   <Factory className="w-10 h-10 text-blue-400 mx-auto" />
                   <h4 className="text-white font-bold text-base">In-Person Factory Visits Welcomed</h4>
                   <p className="text-xs text-gray-300 leading-relaxed">
-                    Visit our 65,000 sq.ft. facility at Plot C-48, TTC Industrial Area, MIDC Pawane, Navi Mumbai to inspect live machinery and CNC fabrication.
+                    Visit us at {ADDRESS_ONE_LINE}.
                   </p>
                   <div className="pt-2">
                     <Link

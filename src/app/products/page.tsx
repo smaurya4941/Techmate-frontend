@@ -28,28 +28,21 @@ function ProductListingContent() {
   const subCategoryParam = searchParams.get('subcategory');
   const searchParam = searchParams.get('search');
 
-  // Dynamic products state merging live API products with fallback catalogue
+  // The admin panel (API) is the source of truth; the built-in catalogue is used only while the API is unreachable.
   const [allProducts, setAllProducts] = useState<ProductItem[]>(SAMPLE_PRODUCTS);
-  const [isLoadingApi, setIsLoadingApi] = useState(false);
+  const [isLoadingApi, setIsLoadingApi] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
     async function loadApiProducts() {
       try {
         setIsLoadingApi(true);
-        const res = await getProducts({ per_page: 50 });
-        if (isMounted && res?.data && res.data.length > 0) {
-          const apiItems = res.data.map(mapApiSummaryToProductItem);
-          // Deduplicate by slug against SAMPLE_PRODUCTS, giving precedence to API items
-          const apiSlugs = new Set(apiItems.map((p) => p.slug));
-          const combined = [
-            ...apiItems,
-            ...SAMPLE_PRODUCTS.filter((p) => !apiSlugs.has(p.slug)),
-          ];
-          setAllProducts(combined);
+        const res = await getProducts({ per_page: 100 });
+        if (isMounted && Array.isArray(res?.data)) {
+          setAllProducts(res.data.map(mapApiSummaryToProductItem));
         }
       } catch {
-        // Keep fallback sample products
+        // API unreachable: keep the built-in catalogue
       } finally {
         if (isMounted) setIsLoadingApi(false);
       }

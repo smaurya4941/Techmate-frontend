@@ -44,37 +44,67 @@ export function getProduct(slug: string) {
  * Transforms an ApiProductSummary into the standard UI ProductItem interface
  */
 export function mapApiSummaryToProductItem(api: ApiProductSummary): ProductItem {
-  const catSlug = (api.category?.slug as EquipmentCategory) || 'cooking';
+  // A product in a sub-category reports its top-level category as `parent`.
+  const top = api.category?.parent ?? api.category;
+  const power = POWER_SOURCES.find((p) => p === api.power_source);
+  const price = api.price !== null && api.price !== undefined ? Number(api.price) : undefined;
+
+  const specifications: ProductSpecification[] = [
+    { label: 'Model Code', value: api.sku, group: 'Construction & Material' },
+  ];
+  if (power) specifications.push({ label: 'Power Source', value: power, group: 'Electrical & Thermal' });
+
   return {
     id: String(api.id),
     slug: api.slug,
     name: api.name,
     modelNumber: api.sku,
-    category: catSlug,
-    categoryName: api.category?.name || 'Commercial Kitchen Equipment',
+    category: (top?.slug as EquipmentCategory) || 'cooking',
+    categoryName: top?.name || 'Commercial Kitchen Equipment',
+    subCategory: api.category?.parent ? api.category.slug : undefined,
     brand: api.brand?.slug,
-    shortDescription:
-      api.short_description ||
-      'Heavy-duty commercial food-service equipment engineered for 24/7 hospitality kitchens.',
-    fullDescription:
-      api.short_description ||
-      'High-performance commercial equipment manufactured with food-grade AISI 304 stainless steel.',
-    image: api.image_url || '/images/products/placeholder.jpg',
-    keyHighlights: [
-      'Heavy-Duty AISI 304 Stainless Steel Construction',
-      'Industrial Grade Thermal & Energy Efficiency',
-      '24/7 Continuous Operation Duty Cycle',
-      'GST Compliant Commercial B2B Warranty',
-    ],
-    specifications: [
-      { label: 'Model Code', value: api.sku, group: 'Construction & Material' },
-      { label: 'Power Source', value: 'Electric', group: 'Electrical & Thermal' },
-    ],
+    brandName: api.brand?.name,
+    shortDescription: api.short_description || '',
+    fullDescription: api.short_description || '',
+    image: api.image_url || '',
+    keyHighlights: api.key_highlights ?? [],
+    specifications,
     isFlagship: api.is_featured,
-    warrantyPeriod: '1 Year Comprehensive Factory Warranty',
-    certifications: ['ISO 9001:2015', 'CE Certified'],
-    powerSource: 'Electric',
+    price: price !== undefined && Number.isFinite(price) ? price : undefined,
+    currency: api.currency_code ?? undefined,
+    warrantyPeriod: api.warranty_period ?? undefined,
+    powerSource: power,
   };
+}
+
+const POWER_SOURCES = ['Electric', 'Gas', 'Dual Fuel', 'Passive'] as const;
+
+/** Admin-managed details for the category cards, keyed by category slug. */
+export interface CategoryMeta {
+  /** Picture uploaded in the admin panel (omitted when none). */
+  imageUrl?: string;
+  /** Number of active sub-categories. */
+  subCategoryCount: number;
+}
+
+/**
+ * Category pictures and sub-category counts from the admin panel. Returns {} when the API cannot be
+ * reached, so callers fall back to the built-in icons and sub-category list.
+ */
+export async function getCategoryMeta(): Promise<Record<string, CategoryMeta>> {
+  try {
+    const res = await getCategories();
+    const meta: Record<string, CategoryMeta> = {};
+    for (const category of res.data ?? []) {
+      meta[category.slug] = {
+        imageUrl: category.image_url ?? undefined,
+        subCategoryCount: category.children?.length ?? 0,
+      };
+    }
+    return meta;
+  } catch {
+    return {};
+  }
 }
 
 /**

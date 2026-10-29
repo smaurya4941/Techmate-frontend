@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, FileText, CheckCircle2, Zap } from 'lucide-react';
 import { ProductItem } from '@/types/product';
 import { ProductImage } from './ProductImage';
+import { formatPrice } from '@/lib/products-data';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 
@@ -43,7 +44,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
           {/* Power Source Badge */}
           <div className="absolute top-3 right-3 z-20">
             <span className="px-2 py-0.5 rounded-full bg-white/95 text-[#174A83] text-[10px] font-bold shadow-sm border border-gray-200 flex items-center gap-1">
-              <Zap className="w-2.5 h-2.5 text-[#D62836]" /> {product.powerSource}
+              <Zap className="w-2.5 h-2.5 text-[#D62836]" /> {product.powerSource ?? 'Equipment'}
             </span>
           </div>
         </div>
@@ -91,10 +92,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
         <div className="flex items-center justify-between mb-4 pt-3">
           <div>
             <span className="text-[10px] uppercase font-bold text-gray-400 block tracking-wider">
-              Pricing Model
+              {product.price ? 'Indicative Price' : 'Pricing Model'}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-extrabold text-[#102B46]">
-              Commercial RFQ / Quote
+              {product.price ? formatPrice(product.price, product.currency) : 'Commercial RFQ / Quote'}
             </span>
           </div>
           <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">

@@ -53,7 +53,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
         </p>
 
         <span className="relative z-10 text-[10px] text-gray-400 mt-1 uppercase tracking-widest font-bold">
-          AISI 304 Certified Model
+          Photo coming soon
         </span>
       </div>
     );
@@ -67,6 +67,7 @@ export const ProductImage: React.FC<ProductImageProps> = ({
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="object-cover transition-transform duration-300 hover:scale-105"
+        unoptimized={src.startsWith('http')}
         onError={() => setImageError(true)}
         priority={priority}
       />

@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { OWN_BRANDS } from '@/lib/brands-data';
+import { COMPANY } from '@/lib/site-config';
 import {
   Award,
   ShieldCheck,
@@ -184,6 +185,47 @@ export default function AboutPage() {
                 </Link>
               ))}
             </div>
+          </section>
+
+          {/* Company at a glance (from Techmate's previous website, approved 2026-10-29) */}
+          <section aria-labelledby="about-glance" className="bg-white rounded-3xl border border-gray-200/90 p-8 sm:p-12 mb-12 shadow-sm">
+            <h2 id="about-glance" className="text-2xl font-bold font-heading text-[#102B46] mb-6">
+              Company at a Glance
+            </h2>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-5 text-sm">
+              <div>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Established</dt>
+                <dd className="mt-1 font-semibold text-[#102B46]">{COMPANY.established}</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Chief Executive</dt>
+                <dd className="mt-1 font-semibold text-[#102B46]">{COMPANY.ceo}</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Imports from</dt>
+                <dd className="mt-1 font-semibold text-[#102B46]">{COMPANY.importsFrom.join(', ')}</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Exports to</dt>
+                <dd className="mt-1 font-semibold text-[#102B46]">{COMPANY.exportsTo.join(', ')}</dd>
+              </div>
+              {COMPANY.registrations.map((reg) => (
+                <div key={reg.label}>
+                  <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">{reg.label}</dt>
+                  <dd className="mt-1 font-mono font-semibold text-[#102B46]">{reg.value}</dd>
+                </div>
+              ))}
+              <div className="sm:col-span-2">
+                <dt className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Offices</dt>
+                <dd className="mt-1 text-[#102B46] space-y-1">
+                  {COMPANY.offices.map((office) => (
+                    <p key={office.label}>
+                      <span className="font-semibold">{office.label}:</span> {office.lines.join(', ')}
+                    </p>
+                  ))}
+                </dd>
+              </div>
+            </dl>
           </section>
 
           {/* Team */}

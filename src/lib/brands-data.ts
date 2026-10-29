@@ -8,7 +8,7 @@ import { CATEGORIES_DATA, SAMPLE_PRODUCTS } from '@/lib/products-data';
  * - `own`: Techmate house brands. Their product range is derived from `categories`.
  *
  * REAL DATA: the 11 authorised partner brands (name, country, positioning) were supplied by
- * Techmate. Do not invent further brand facts. Logos and per-brand products are still to come;
+ * Techmate. Do not invent further brand facts. Logos for 9 of the 11 are supplied (Homat and Hongling pending); per-brand products are still to come;
  * link products to a partner brand through `ProductItem.brand` (the brand slug).
  */
 export type BrandKind = 'partner' | 'own';
@@ -19,6 +19,8 @@ export interface BrandInfo {
   kind: BrandKind;
   /** Country of origin. Omitted when not known (e.g. Homat). */
   country?: string;
+  /** Logo under /public (supplied by Techmate). Omitted until a logo is provided. */
+  logo?: string;
   /** Key categories / positioning. */
   division: string;
   badge: string;
@@ -30,6 +32,19 @@ export interface BrandInfo {
   /** Categories this brand covers. Own brands derive their models from these. */
   categories: EquipmentCategory[];
 }
+
+/** Partner brands whose logo file exists at /public/images/brands/<slug>.png. */
+const BRANDS_WITH_LOGO = new Set([
+  'unox',
+  'electrolux-professional',
+  'alto-shaam',
+  'rational',
+  'spar',
+  'hatco',
+  'dynamic',
+  'robot-coupe',
+  'veetsan',
+]);
 
 const PARTNER_HIGHLIGHTS = [
   'Authorised Techmate supply',
@@ -50,6 +65,7 @@ function partnerBrand(
     name,
     kind: 'partner',
     country,
+    logo: BRANDS_WITH_LOGO.has(slug) ? `/images/brands/${slug}.png` : undefined,
     division: positioning,
     badge: 'Authorised Brand',
     tagline: country ? `${name} from ${country}, supplied and supported by Techmate.` : `${name}, supplied and supported by Techmate.`,

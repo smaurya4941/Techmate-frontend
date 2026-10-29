@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { BrandLogo } from '@/components/brands/BrandLogo';
 import { ProductGrid } from '@/components/products/ProductGrid';
 import {
   BRANDS_DATA,
@@ -61,6 +62,11 @@ export default async function BrandDetailPage({ params }: BrandPageProps) {
                   <Award className="w-3 h-3" aria-hidden="true" />
                   {brand.badge}
                 </span>
+                {brand.logo && (
+                  <div className="mb-4">
+                    <BrandLogo brand={brand} className="h-20" />
+                  </div>
+                )}
                 <h1 className="text-2xl sm:text-4xl font-extrabold text-[#102B46] font-heading">
                   {brand.name}
                 </h1>

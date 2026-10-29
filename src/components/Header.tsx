@@ -7,15 +7,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   Phone,
   Mail,
-  Clock,
-  Award,
   Lock,
   Search,
   Menu,
   X,
   ChevronDown,
   ArrowRight,
-  Activity,
   Layers,
   Headphones,
   Wheat,
@@ -54,7 +51,7 @@ const CATEGORY_ICON_MAP: Record<EquipmentCategory, React.ElementType> = {
   'kitchen-equipment': Boxes,
 };
 
-export function Header({ apiHealthStatus }: HeaderProps) {
+export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -284,69 +281,33 @@ export function Header({ apiHealthStatus }: HeaderProps) {
       {/* 1. TOP UTILITY BAR (Deep Navy) */}
       <div className="bg-[#102B46] text-gray-200 text-xs py-2.5 border-b border-white/10 hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          {/* Contact Details */}
-          <div className="flex items-center space-x-6">
-            <a
-              href={`tel:${SITE.phone.tel}`}
-              className="flex items-center space-x-2 text-gray-200 hover:text-[#D62836] transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#D62836]" />
-              <span className="font-semibold">{SITE.phone.display}</span>
-            </a>
-            <a
-              href={buildWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-2 text-gray-200 hover:text-emerald-400 transition-colors"
-            >
-              <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-400" />
-              <span>WhatsApp</span>
-            </a>
+          {/* Email */}
+          <div className="flex items-center">
             <a
               href={`mailto:${SITE.email}`}
-              className="hidden lg:flex items-center space-x-2 text-gray-200 hover:text-[#D62836] transition-colors"
+              className="flex items-center space-x-2 text-gray-200 hover:text-[#D62836] transition-colors"
             >
               <Mail className="w-3.5 h-3.5 text-[#D62836]" />
               <span>{SITE.email}</span>
             </a>
-            <div className="hidden xl:flex items-center space-x-2 text-gray-400">
-              <Clock className="w-3.5 h-3.5 text-gray-400" />
-              <span>Mon - Sat: 8:30 AM - 7:00 PM IST</span>
-            </div>
           </div>
 
-          {/* Right Credential Badges & Portals */}
-          <div className="flex items-center space-x-5">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#174A83]/60 text-blue-100 text-[11px] font-semibold border border-blue-400/30">
-              <Award className="w-3 h-3 text-[#D62836]" /> ISO 9001:2015 Certified
-            </span>
-
-            {/* Backend health status badge */}
-            {apiHealthStatus && (
-              <span
-                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-medium ${
-                  apiHealthStatus === 'online'
-                    ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-500/30'
-                    : 'bg-amber-900/60 text-amber-300 border border-amber-500/30'
-                }`}
-                title={`REST API is ${apiHealthStatus}`}
-              >
-                <Activity className="w-2.5 h-2.5" /> API: {apiHealthStatus}
-              </span>
-            )}
-
+          {/* Support & Dealer Section */}
+          <div className="flex items-center space-x-6">
             <Link
               href="/support"
-              className="hover:text-white transition-colors flex items-center gap-1 font-medium text-xs text-gray-300 hover:underline"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-medium text-xs text-gray-300 hover:underline"
             >
-              <Headphones className="w-3 h-3 text-gray-300" /> Support
+              <Headphones className="w-3.5 h-3.5 text-gray-300" />
+              <span>Support</span>
             </Link>
 
             <Link
               href="/become-a-distributor"
-              className="hover:text-white transition-colors flex items-center gap-1 font-medium text-xs text-gray-300 hover:underline"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-medium text-xs text-gray-300 hover:underline"
             >
-              <Lock className="w-3 h-3 text-gray-300" /> Dealer Portal
+              <Lock className="w-3.5 h-3.5 text-gray-300" />
+              <span>Dealer Portal</span>
             </Link>
           </div>
         </div>
@@ -358,12 +319,13 @@ export function Header({ apiHealthStatus }: HeaderProps) {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group py-2" aria-label="Techmate Industries Home">
-              <div className="relative w-44 sm:w-52 h-12 transition-transform duration-200 group-hover:scale-[1.02]">
+              <div className="relative w-28 sm:w-32 h-14 transition-transform duration-200 group-hover:scale-[1.02]">
                 <Image
-                  src="/images/techmate-logo.png"
+                  src="/images/techmate-logo.png?v=2"
                   alt="Techmate Industries - Technifying Your Kitchen"
                   fill
                   priority
+                  unoptimized
                   className="object-contain object-left"
                 />
               </div>
@@ -399,7 +361,7 @@ export function Header({ apiHealthStatus }: HeaderProps) {
                   >
                     <Link
                       href={link.href}
-                      onClick={(e) => {
+                      onClick={() => {
                         // Allow clicking to toggle dropdown if desired
                         if (dropdownKey && openDropdown === dropdownKey) {
                           setOpenDropdown(null);

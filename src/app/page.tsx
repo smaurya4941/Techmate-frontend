@@ -13,6 +13,7 @@ import { SplitCtaBanner } from '@/components/SplitCtaBanner';
 import { MarqueeTicker } from '@/components/MarqueeTicker';
 import { ProcessSteps } from '@/components/ProcessSteps';
 import { Testimonials } from '@/components/Testimonials';
+import { GoogleReviews } from '@/components/GoogleReviews';
 import { TechnicalInsights } from '@/components/TechnicalInsights';
 import { QuoteForm } from '@/components/QuoteForm';
 import { Footer } from '@/components/Footer';
@@ -20,6 +21,7 @@ import { MobileStickyBar } from '@/components/MobileStickyBar';
 import { FloatingRightSidebar } from '@/components/FloatingRightSidebar';
 import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { getApiHealth } from '@/lib/api';
+import { getCategoryMeta } from '@/lib/catalogue';
 
 export const revalidate = 60; // ISR revalidation every 60s
 
@@ -35,6 +37,8 @@ export default async function Home() {
     apiStatus = 'offline';
   }
 
+  const categoryMeta = await getCategoryMeta();
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-brand-slate antialiased selection:bg-[#D62836] selection:text-white relative">
       {/* 1. Header with Top Utility Bar & Official Techmate Brand Logo */}
@@ -49,7 +53,7 @@ export default async function Home() {
         <BrandsShowcase />
 
         {/* 3. Product Categories */}
-        <EquipmentGrid />
+        <EquipmentGrid categoryMeta={categoryMeta} />
 
         {/* 4. Solutions */}
         <SolutionsShowcase />
@@ -62,6 +66,7 @@ export default async function Home() {
 
         {/* 7. Customer Reviews */}
         <Testimonials />
+        <GoogleReviews />
 
         {/* Supporting sections */}
         <AboutFactoryBanner />

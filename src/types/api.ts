@@ -77,10 +77,13 @@ export interface ApiProductSummary {
   /** null = price on request (quote-first catalogue). */
   price: string | null;
   currency_code: string | null;
+  power_source: string | null;
+  warranty_period: string | null;
+  key_highlights: string[] | null;
   is_featured: boolean;
   image_url: string | null;
   published_at: string | null;
-  category: { id: number; name: string; slug: string } | null;
+  category: { id: number; name: string; slug: string; parent?: { name: string; slug: string } | null } | null;
   brand: { id: number; name: string; slug: string; logo_url: string | null } | null;
 }
 
@@ -153,4 +156,24 @@ export interface DistributorApplicationPayload {
   regions_served: string[];
   message?: string;
   hp_field?: string;
+}
+
+/** GET /api/v1/google-reviews (Google Places API, at most five reviews). */
+export interface GoogleReview {
+  authorName: string;
+  authorUri: string | null;
+  authorPhotoUri: string | null;
+  rating: number;
+  text: string;
+  relativeDate: string | null;
+  publishTime: string | null;
+}
+
+export interface GoogleReviewsData {
+  businessName: string | null;
+  rating: number | null;
+  totalReviews: number;
+  googleMapsUri: string | null;
+  writeReviewUri: string | null;
+  reviews: GoogleReview[];
 }

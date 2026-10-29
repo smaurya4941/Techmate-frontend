@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { FadeIn, StaggerGroup, StaggerItem } from '@/components/animations/MotionWrapper';
 import { OWN_BRANDS, PARTNER_BRANDS } from '@/lib/brands-data';
+import { BrandLogo } from '@/components/brands/BrandLogo';
 
 export function BrandsShowcase() {
   return (
@@ -37,9 +38,9 @@ export function BrandsShowcase() {
             <StaggerItem key={brand.slug}>
               <Link
                 href={`/brands/${brand.slug}`}
-                className="h-28 flex flex-col items-center justify-center gap-1 text-center px-4 rounded-2xl bg-[#F8FAFC] border border-gray-200/80 hover:border-[#174A83]/50 hover:bg-white shadow-sm hover:shadow-md transition-all font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
+                className="h-32 flex flex-col items-center justify-center gap-1.5 text-center px-4 rounded-2xl bg-white border border-gray-200/80 hover:border-[#174A83]/50 shadow-sm hover:shadow-md transition-all font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
               >
-                <span>{brand.name}</span>
+                <BrandLogo brand={brand} className="h-14" />
                 {brand.country && (
                   <span className="text-[11px] font-sans font-semibold text-gray-500">{brand.country}</span>
                 )}

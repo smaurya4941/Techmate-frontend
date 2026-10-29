@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
+
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { PageContainer } from '@/components/layout/PageContainer';
-import { CategoryIcon } from '@/components/products/CategoryIcon';
+import { CategoryTile } from '@/components/products/CategoryTile';
+import type { CategoryMeta } from '@/lib/catalogue';
 import { CATEGORIES_DATA, getSubCategoriesOf } from '@/lib/products-data';
 import { Search } from 'lucide-react';
 
-export function CategoriesClient() {
+/** `categoryMeta` holds the pictures and sub-category counts managed in the admin panel (built-in values are the fallback). */
+export function CategoriesClient({ categoryMeta = {} }: { categoryMeta?: Record<string, CategoryMeta> }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeSlug, setActiveSlug] = useState<string | null>(null);
 
   // Filter categories and their subcategories based on search input
   const filteredCategories = useMemo(() => {
@@ -97,43 +98,16 @@ export function CategoriesClient() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-              {filteredCategories.map((category) => {
-                const subCount = category.subCategories.length;
-                const isSelected = activeSlug === category.slug;
-
-                return (
-                  <Link
-                    key={category.slug}
-                    href={`/products?category=${category.slug}`}
-                    onMouseEnter={() => setActiveSlug(category.slug)}
-                    onMouseLeave={() => setActiveSlug(null)}
-                    className={`group bg-white rounded-2xl p-7 flex flex-col items-center justify-center text-center transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-1 ${
-                      isSelected
-                        ? 'border-2 border-blue-400 ring-4 ring-blue-50 shadow-md'
-                        : 'border border-gray-200/80 hover:border-[#174A83]/50'
-                    }`}
-                  >
-                    {/* Centered Circular Icon Container */}
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-b from-blue-50 to-blue-100/50 border border-blue-100 flex items-center justify-center text-[#174A83] group-hover:bg-[#174A83] group-hover:text-white transition-all duration-300 shadow-sm group-hover:scale-105 mb-4">
-                      <CategoryIcon
-                        category={category.slug}
-                        className="w-9 h-9 transition-colors text-inherit"
-                      />
-                    </div>
-
-                    {/* Category Name */}
-                    <h2 className="text-base font-bold text-[#102B46] group-hover:text-[#174A83] transition-colors font-heading line-clamp-1">
-                      {category.name}
-                    </h2>
-
-                    {/* Subcategories Count */}
-                    <span className="text-xs text-gray-500 mt-1 font-medium">
-                      {subCount} {subCount === 1 ? 'subcategory' : 'subcategories'}
-                    </span>
-                  </Link>
-                );
-              })}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-12">
+              {filteredCategories.map((category) => (
+                <CategoryTile
+                  key={category.slug}
+                  slug={category.slug}
+                  name={category.name}
+                  imageUrl={categoryMeta[category.slug]?.imageUrl}
+                  subCategoryCount={categoryMeta[category.slug]?.subCategoryCount ?? category.subCategories.length}
+                />
+              ))}
             </div>
           )}
         </PageContainer>
