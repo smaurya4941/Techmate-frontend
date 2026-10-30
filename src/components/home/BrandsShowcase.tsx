@@ -1,9 +1,45 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { FadeIn, StaggerGroup, StaggerItem } from '@/components/animations/MotionWrapper';
-import { OWN_BRANDS, PARTNER_BRANDS } from '@/lib/brands-data';
+import { FadeIn } from '@/components/animations/MotionWrapper';
+import { OWN_BRANDS, PARTNER_BRANDS, type BrandInfo as Brand } from '@/lib/brands-data';
 import { BrandLogo } from '@/components/brands/BrandLogo';
+
+// Every partner brand appears in both rows; the second row runs in reverse order so the rows never mirror each other.
+const ROW_ONE = PARTNER_BRANDS;
+const ROW_TWO = [...PARTNER_BRANDS].reverse();
+
+/** Repeats the list so one sequence always outruns the widest screen (cards are ~210px). */
+function fillSequence(brands: readonly Brand[]): Brand[] {
+  const copies = Math.max(1, Math.ceil(14 / brands.length));
+  return Array.from({ length: copies }, () => brands).flat();
+}
+
+function BrandRow({ brands, direction }: { brands: readonly Brand[]; direction: 'left' | 'right' }) {
+  const sequence = fillSequence(brands);
+  const animation = direction === 'left' ? 'animate-marquee-slow' : 'animate-marquee-slow-reverse';
+
+  return (
+    <div className="group relative overflow-hidden py-2 [mask-image:linear-gradient(to_right,transparent,#000_3%,#000_97%,transparent)]">
+      <div className={`flex w-max ${animation} motion-reduce:animate-none group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]`}>
+        {[0, 1].map((copy) => (
+          <div key={copy} className="flex shrink-0 gap-8 pr-8" aria-hidden={copy === 1 || undefined}>
+            {sequence.map((brand, i) => (
+              <Link
+                key={`${brand.slug}-${i}`}
+                href={`/brands/${brand.slug}`}
+                tabIndex={copy === 1 ? -1 : undefined}
+                className="w-40 sm:w-48 shrink-0 flex items-center justify-center text-center px-3 font-heading font-bold text-base text-[#102B46] hover:text-[#174A83] hover:scale-105 transition-transform duration-300"
+              >
+                <span className="flex h-20 w-full items-center justify-center"><BrandLogo brand={brand} className="h-14" /></span>
+              </Link>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function BrandsShowcase() {
   return (
@@ -30,24 +66,11 @@ export function BrandsShowcase() {
           </div>
         </FadeIn>
 
-        <StaggerGroup
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
-          staggerDelay={0.05}
-        >
-          {PARTNER_BRANDS.map((brand) => (
-            <StaggerItem key={brand.slug}>
-              <Link
-                href={`/brands/${brand.slug}`}
-                className="h-32 flex flex-col items-center justify-center gap-1.5 text-center px-4 rounded-2xl bg-white border border-gray-200/80 hover:border-[#174A83]/50 shadow-sm hover:shadow-md transition-all font-heading font-bold text-base text-[#102B46] hover:text-[#174A83]"
-              >
-                <BrandLogo brand={brand} className="h-14" />
-                {brand.country && (
-                  <span className="text-[11px] font-sans font-semibold text-gray-500">{brand.country}</span>
-                )}
-              </Link>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
+        {/* Two marquee rows drifting in opposite directions; pauses on hover/focus, static when reduced motion is requested. */}
+        <div className="space-y-2" role="region" aria-label="Authorised brands">
+          <BrandRow brands={ROW_ONE} direction="left" />
+          <BrandRow brands={ROW_TWO} direction="right" />
+        </div>
 
         <FadeIn direction="up">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">

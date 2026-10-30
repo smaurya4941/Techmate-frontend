@@ -40,8 +40,8 @@ export function ServicesOverview() {
           </div>
         </FadeIn>
 
-        <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" staggerDelay={0.08}>
-          {SERVICES_DATA.map((service) => (
+        <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" staggerDelay={0.08}>
+          {SERVICES_DATA.slice(0, 4).map((service) => (
             <StaggerItem key={service.slug}>
               <Link
                 href={`/services#${service.slug}`}

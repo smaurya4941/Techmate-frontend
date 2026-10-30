@@ -70,8 +70,15 @@ export function buildWhatsAppUrl(message: string = WHATSAPP_DEFAULT_MESSAGE): st
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-/** Public Google reviews page for the business. Empty string hides the link. */
-export const GOOGLE_REVIEWS_URL = process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ?? '';
+/** Public Google reviews page for the business. Uses the configured env var or falls back to Google Search/Maps. */
+export const GOOGLE_REVIEWS_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ||
+  'https://maps.app.goo.gl/V1CdPJFCWRszomSP6';
+
+/** Direct link for customers to post a new review on Google. */
+export const GOOGLE_WRITE_REVIEW_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_WRITE_REVIEW_URL ||
+  'https://maps.app.goo.gl/V1CdPJFCWRszomSP6';
 
 export interface NavLink {
   label: string;

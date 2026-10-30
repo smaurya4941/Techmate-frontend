@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   CATEGORIES_DATA,
   countProductsInSubCategory,
   getSubCategoriesOf,
 } from '@/lib/products-data';
 import { Filter, X, RotateCcw, Check } from 'lucide-react';
-import { Button } from '../ui/Button';
 
 export interface ProductFilterSidebarProps {
   selectedCategory: string;
@@ -130,10 +130,10 @@ export const ProductFilterSidebar: React.FC<ProductFilterSidebarProps> = ({
                       type="button"
                       onClick={() => onSelectSubCategory('all')}
                       aria-pressed={selectedSubCategory === 'all'}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-md text-[11px] transition ${
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] transition ${
                         selectedSubCategory === 'all'
-                          ? 'bg-[#F3F6FA] text-[#174A83] font-bold'
-                          : 'text-gray-500 hover:text-[#174A83] hover:bg-[#F3F6FA]'
+                          ? 'bg-[#174A83]/10 text-[#174A83] font-bold'
+                          : 'text-[#475467] hover:text-[#174A83] hover:bg-gray-100/60'
                       }`}
                     >
                       All {cat.name}
@@ -146,14 +146,18 @@ export const ProductFilterSidebar: React.FC<ProductFilterSidebarProps> = ({
                           type="button"
                           onClick={() => onSelectSubCategory(sub.slug)}
                           aria-pressed={isSubSelected}
-                          className={`w-full text-left px-2.5 py-1.5 rounded-md text-[11px] flex items-center justify-between transition ${
+                          className={`w-full text-left px-2.5 py-1.5 rounded-lg text-[11px] flex items-center justify-between transition ${
                             isSubSelected
-                              ? 'bg-[#F3F6FA] text-[#174A83] font-bold'
-                              : 'text-gray-500 hover:text-[#174A83] hover:bg-[#F3F6FA]'
+                              ? 'bg-[#174A83]/10 text-[#174A83] font-bold'
+                              : 'text-[#475467] hover:text-[#174A83] hover:bg-gray-100/60'
                           }`}
                         >
                           <span className="truncate pr-2">{sub.name}</span>
-                          <span className="text-[10px] text-gray-400">
+                          <span
+                            className={`text-[10px] ${
+                              isSubSelected ? 'text-[#174A83] font-semibold' : 'text-gray-400'
+                            }`}
+                          >
                             {countProductsInSubCategory(sub.slug)}
                           </span>
                         </button>
@@ -199,18 +203,12 @@ export const ProductFilterSidebar: React.FC<ProductFilterSidebarProps> = ({
         <p className="text-[11px] text-[#344054] leading-relaxed mb-3">
           Need non-standard dimensions, custom CAD layouts, or multi-unit project pricing?
         </p>
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full text-xs"
-          onClick={() => {
-            if (typeof window !== 'undefined') {
-              window.location.href = '/request-quote';
-            }
-          }}
+        <Link
+          href="/request-quote"
+          className="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg border border-gray-300 text-xs font-semibold text-[#102B46] bg-white hover:bg-gray-50 transition shadow-xs text-center"
         >
           Request Project Consultation
-        </Button>
+        </Link>
       </div>
     </div>
   );

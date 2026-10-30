@@ -51,7 +51,7 @@ const CATEGORY_ICON_MAP: Record<EquipmentCategory, React.ElementType> = {
   'kitchen-equipment': Boxes,
 };
 
-export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
+export function Header({}: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,6 +60,30 @@ export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = (key: DropdownKey) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setOpenDropdown(key);
+  };
+
+  const handleMouseLeave = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 180);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    };
+  }, []);
 
   // Close menus on path change
   const [prevPathname, setPrevPathname] = useState(pathname);
@@ -117,7 +141,9 @@ export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
     <div
       role="region"
       aria-label="Products Mega Menu"
-      className="absolute top-full left-1/2 -translate-x-1/2 w-[1140px] max-w-[95vw] bg-white shadow-2xl rounded-2xl border border-gray-100/90 text-xs z-50 overflow-hidden animate-fade-in mt-1"
+      className="absolute top-full left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 bg-white shadow-2xl rounded-2xl border border-gray-100/90 text-xs z-50 overflow-hidden animate-fade-in mt-1.5 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
+      onMouseEnter={() => handleMouseEnter('products')}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Top Header Bar */}
       <div className="bg-[#F8FAFC] px-8 py-3.5 border-b border-gray-200/80 flex items-center justify-between">
@@ -220,7 +246,9 @@ export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
     <div
       role="region"
       aria-label="Brands Menu"
-      className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] bg-white shadow-2xl rounded-2xl border border-gray-100 text-xs z-50 overflow-hidden animate-fade-in mt-1"
+      className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] max-w-[90vw] bg-white shadow-2xl rounded-2xl border border-gray-100 text-xs z-50 overflow-hidden animate-fade-in mt-1.5 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
+      onMouseEnter={() => handleMouseEnter('brands')}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="px-6 py-3.5 bg-[#F8FAFC] border-b border-gray-100 flex items-center justify-between">
         <span className="text-[11px] font-extrabold uppercase text-[#102B46] tracking-wider font-heading">
@@ -315,7 +343,7 @@ export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
 
       {/* 2. MAIN NAVIGATION BAR */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/90 shadow-sm transition-all" ref={dropdownRef}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group py-2" aria-label="Techmate Industries Home">
@@ -356,8 +384,9 @@ export function Header({ apiHealthStatus: _apiHealthStatus }: HeaderProps) {
                 return (
                   <div
                     key={link.href}
-                    className="relative py-2"
-                    onMouseEnter={() => dropdownKey && setOpenDropdown(dropdownKey)}
+                    className={`${isProducts ? 'static' : 'relative'} py-2`}
+                    onMouseEnter={() => dropdownKey && handleMouseEnter(dropdownKey)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     <Link
                       href={link.href}
