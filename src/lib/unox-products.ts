@@ -1,4 +1,5 @@
 import type { EquipmentCategory, ProductItem, ProductSpecification } from '@/types/product';
+import { getDefaultDummyProductImage } from '@/lib/catalogue';
 
 /**
  * REAL CATALOGUE: the 18 UNOX (Italy) products listed on Techmate's previous website
@@ -44,6 +45,8 @@ const dims = (label: string, value: string, unit?: string): ProductSpecification
 
 function unox(p: UnoxInput): ProductItem {
   const slug = `unox-${p.model.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const dummyImg = getDefaultDummyProductImage(p.category, p.model);
+
   return {
     id: slug,
     slug,
@@ -56,7 +59,8 @@ function unox(p: UnoxInput): ProductItem {
     price: p.price,
     shortDescription: p.short,
     fullDescription: `${p.name}. ${p.short} Supplied and supported in India by Techmate Industries as an authorised UNOX partner.`,
-    image: '',
+    image: dummyImg,
+    galleryImages: [dummyImg, '/images/products/bakertop-combi-2.jpg', '/images/products/cheftop-combi-2.jpg'],
     keyHighlights: p.highlights,
     specifications: p.specs,
     powerSource: p.powerSource ?? 'Electric',

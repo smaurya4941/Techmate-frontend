@@ -41,6 +41,59 @@ export function getProduct(slug: string) {
 }
 
 /**
+ * Provides authentic, high-resolution commercial food-service equipment dummy images
+ * mapped to category and model code patterns until real production photographs are supplied.
+ */
+export function getDefaultDummyProductImage(categorySlug?: string, sku?: string): string {
+  const m = (sku || '').toUpperCase();
+  if (m.includes('DB1044') || m.includes('DETERGENT') || m.includes('CLEAN')) {
+    return '/images/products/cleaning-detergent.jpg';
+  }
+  if (m.includes('SPEED') || m.includes('XEMA')) {
+    return '/images/products/speed-oven.jpg';
+  }
+  if (m.includes('LIEVOX') || m.includes('XEBPC') || m.includes('PROOF')) {
+    return '/images/products/proofer-lievox.jpg';
+  }
+  if (m.includes('XEVC-0711') || m.includes('XEVL-2011')) {
+    return '/images/products/cheftop-combi-2.jpg';
+  }
+  if (m.includes('CHEFTOP') || m.includes('XEVC')) {
+    return '/images/products/cheftop-combi-1.jpg';
+  }
+  if (m.includes('XEFR-04EU') || m.includes('XEFR-06EU')) {
+    return '/images/products/bakerlux-convection-2.jpg';
+  }
+  if (m.includes('BAKERLUX') || m.includes('XEFR') || m.includes('XFT')) {
+    return '/images/products/bakerlux-convection-1.jpg';
+  }
+  if (m.includes('XEBC-10EU')) {
+    return '/images/products/bakertop-combi-2.jpg';
+  }
+  if (m.includes('BAKERTOP') || m.includes('XEBC')) {
+    return '/images/products/bakertop-combi-1.jpg';
+  }
+
+  switch (categorySlug) {
+    case 'bakery-baking':
+      return '/images/products/bakertop-combi-1.jpg';
+    case 'cooking':
+      return '/images/products/cheftop-combi-1.jpg';
+    case 'refrigeration':
+      return '/images/products/commercial-refrigeration.jpg';
+    case 'dishwashing':
+      return '/images/products/commercial-dishwashing.jpg';
+    case 'food-preparation':
+      return '/images/products/commercial-food-prep.jpg';
+    case 'hot-holding':
+      return '/images/products/commercial-hot-holding.jpg';
+    case 'kitchen-equipment':
+    default:
+      return '/images/products/commercial-kitchen-equipment.jpg';
+  }
+}
+
+/**
  * Transforms an ApiProductSummary into the standard UI ProductItem interface
  */
 export function mapApiSummaryToProductItem(api: ApiProductSummary): ProductItem {
@@ -66,7 +119,7 @@ export function mapApiSummaryToProductItem(api: ApiProductSummary): ProductItem 
     brandName: api.brand?.name,
     shortDescription: api.short_description || '',
     fullDescription: api.short_description || '',
-    image: api.image_url || '',
+    image: api.image_url || getDefaultDummyProductImage(top?.slug, api.sku),
     keyHighlights: api.key_highlights ?? [],
     specifications,
     isFlagship: api.is_featured,
@@ -121,7 +174,7 @@ export function mapApiDetailToProductItem(api: ApiProductDetail): ProductItem {
           label: item.label,
           value: item.unit ? `${item.value} ${item.unit}` : String(item.value),
           unit: item.unit || undefined,
-          group: (group.group as any) || 'Construction & Material',
+          group: (group.group as ProductSpecification['group']) || 'Construction & Material',
         });
       }
     }
@@ -135,10 +188,13 @@ export function mapApiDetailToProductItem(api: ApiProductDetail): ProductItem {
     (doc) => doc.type === 'brochure' || doc.type === 'manual'
   )?.url || undefined;
 
+  const dummyFallback = getDefaultDummyProductImage(base.category, base.modelNumber);
+
   return {
     ...base,
+    image: base.image || dummyFallback,
     fullDescription: api.description || api.short_description || base.fullDescription,
-    galleryImages: gallery.length > 0 ? gallery : undefined,
+    galleryImages: gallery.length > 0 ? gallery : [dummyFallback, '/images/products/bakertop-combi-2.jpg', '/images/products/cheftop-combi-2.jpg'],
     specifications: specs.length > 0 ? specs : base.specifications,
     brochureUrl: brochure,
   };
