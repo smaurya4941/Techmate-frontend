@@ -55,6 +55,9 @@ export function getDefaultDummyProductImage(categorySlug?: string, sku?: string)
   if (m.includes('LIEVOX') || m.includes('XEBPC') || m.includes('PROOF')) {
     return '/images/products/proofer-lievox.jpg';
   }
+  if (m.includes('XEVC-0511') || m.includes('0511-EPRM')) {
+    return '/images/products/unox-xevc-0511-eprm.png';
+  }
   if (m.includes('XEVC-0711') || m.includes('XEVL-2011')) {
     return '/images/products/cheftop-combi-2.jpg';
   }
@@ -170,10 +173,16 @@ export function mapApiDetailToProductItem(api: ApiProductDetail): ProductItem {
   for (const group of api.specifications || []) {
     for (const item of group.items || []) {
       if (item.value !== null && item.value !== undefined) {
+        const rawVal = String(item.value).trim();
+        const unit = item.unit ? String(item.unit).trim() : '';
+        const displayValue =
+          unit && !rawVal.toLowerCase().includes(unit.toLowerCase())
+            ? `${rawVal} ${unit}`
+            : rawVal;
+
         specs.push({
           label: item.label,
-          value: item.unit ? `${item.value} ${item.unit}` : String(item.value),
-          unit: item.unit || undefined,
+          value: displayValue,
           group: (group.group as ProductSpecification['group']) || 'Construction & Material',
         });
       }

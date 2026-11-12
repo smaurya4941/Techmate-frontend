@@ -24,28 +24,46 @@ interface UnoxInput {
   highlights: string[];
   specs: ProductSpecification[];
   powerSource?: ProductItem['powerSource'];
+  image?: string;
+  galleryImages?: string[];
+  fullDescription?: string;
+  warrantyPeriod?: string;
+  certifications?: string[];
+  brochureUrl?: string;
+  isFlagship?: boolean;
 }
 
 const BAKERY = { category: 'bakery-baking', categoryName: 'Bakery & Baking' } as const;
 const COOKING = { category: 'cooking', categoryName: 'Cooking Equipment' } as const;
 
-const cap = (value: string, unit?: string): ProductSpecification => ({
-  label: 'Capacity',
+const cap = (value: string, unit?: string, label: string = 'Capacity'): ProductSpecification => ({
+  label,
   value,
   unit,
   group: 'Capacity & Output',
 });
-const elec = (label: string, value: string): ProductSpecification => ({ label, value, group: 'Electrical & Thermal' });
+const elec = (label: string, value: string, unit?: string): ProductSpecification => ({
+  label,
+  value,
+  unit,
+  group: 'Electrical & Thermal',
+});
 const dims = (label: string, value: string, unit?: string): ProductSpecification => ({
   label,
   value,
   unit,
   group: 'Dimensions & Weight',
 });
+const constr = (label: string, value: string, unit?: string): ProductSpecification => ({
+  label,
+  value,
+  unit,
+  group: 'Construction & Material',
+});
 
 function unox(p: UnoxInput): ProductItem {
   const slug = `unox-${p.model.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
-  const dummyImg = getDefaultDummyProductImage(p.category, p.model);
+  const dummyImg = p.image || getDefaultDummyProductImage(p.category, p.model);
 
   return {
     id: slug,
@@ -58,12 +76,22 @@ function unox(p: UnoxInput): ProductItem {
     brand: 'unox',
     price: p.price,
     shortDescription: p.short,
-    fullDescription: `${p.name}. ${p.short} Supplied and supported in India by Techmate Industries as an authorised UNOX partner.`,
+    fullDescription:
+      p.fullDescription ??
+      `${p.name}. ${p.short} Supplied and supported in India by Techmate Industries as an authorised UNOX partner.`,
     image: dummyImg,
-    galleryImages: [dummyImg, '/images/products/bakertop-combi-2.jpg', '/images/products/cheftop-combi-2.jpg'],
+    galleryImages: p.galleryImages ?? [
+      dummyImg,
+      '/images/products/cheftop-combi-1.jpg',
+      '/images/products/cheftop-combi-2.jpg',
+    ],
     keyHighlights: p.highlights,
     specifications: p.specs,
     powerSource: p.powerSource ?? 'Electric',
+    warrantyPeriod: p.warrantyPeriod,
+    certifications: p.certifications,
+    brochureUrl: p.brochureUrl,
+    isFlagship: p.isFlagship,
   };
 }
 
@@ -160,13 +188,72 @@ export const UNOX_PRODUCTS: ProductItem[] = [
   }),
   unox({
     model: 'XEVC-0511-EPRM',
-    name: 'UNOX XEVC-0511-EPRM CHEFTOP MIND.Maps Countertop Plus Combi Oven GN 1/1',
+    name: 'Commercial Electric Countertop Combi Oven - GN1/1 UNOX XEVC-0511-EPRM CHEFTOP MIND.Maps',
     ...COOKING,
     subCategory: 'cooking-combi-ovens',
     price: 435000,
-    short: 'Electric countertop combi oven with 5 GN 1/1 trays. Unox, Italy.',
-    highlights: ['5 trays (GN 1/1)', '9.3 kW', '400 V 3N'],
-    specs: [cap('5 x GN 1/1', 'Trays'), elec('Connected Power', '9.3 kW'), elec('Supply Voltage', '400 V 3N'), dims('Net Weight', '70', 'kg')],
+    short:
+      'Technologically advanced 5-tray GN 1/1 commercial electric countertop combi oven with 9.5" touch control, CHEFUNOX automation, and 9.3 kW power.',
+    fullDescription:
+      'Commercial Electric Countertop Combi Oven - GN1/1 UNOX XEVC-0511-EPRM CHEFTOP MIND.Maps PLUS. Technologically advanced combi oven for gastronomy cooking processes (dehydrating, steaming, low temperature cooking, sous vide cooking, roasting, grilling, pan frying, regeneration and plate regeneration) and for fresh or frozen baking thanks to Unox Intensive Cooking and Intelligence Performance technologies which guarantee perfect results and repeatability for any load size. Features automatic management of cooking processes (CHEFUNOX) for perfect results even without trained staff. Equipped with a 9.5" capacitive touch screen, left-hinged door, and robust AISI 304 food-grade stainless steel construction. Techmate Industries is an authorised dealer for all UNOX ovens in Delhi NCR and across India, delivering complete equipment supply, kitchen layout consultation, factory-trained commissioning, genuine spare parts, and comprehensive 1-year on-site warranty support.',
+    image: '/images/products/unox-xevc-0511-eprm.png',
+    galleryImages: [
+      '/images/products/unox-xevc-0511-eprm.png',
+      '/images/products/cheftop-combi-1.jpg',
+      '/images/products/cheftop-combi-2.jpg',
+    ],
+    isFlagship: true,
+    warrantyPeriod: '1 Year On-site Manufacturer Warranty',
+    certifications: ['CE Certified', 'ISO 9001:2015', 'HACCP Compliant', 'NSF / Hygiene Certified'],
+    powerSource: 'Electric',
+    highlights: [
+      '5 Trays Capacity (GN 1/1, 530 × 325 mm)',
+      '9.5" Capacitive Touch Control with MIND.Maps™ Visual Programming',
+      '9.3 kW Connected Power (380-415V 3N~ / 400V 3N~)',
+      'Intelligent Cooking Automation (CHEFUNOX, Intensive Cooking & Intelligence Performance)',
+      'Multi-Cooking Modes: Steam, Bake, Combi, Convection, Roast, Grill, Pan Fry, Sous-Vide & Regeneration',
+      'Food-Grade AISI 304 Stainless Steel Construction (70 kg Net Weight)',
+      'Authorised UNOX Italy Dealership — Techmate Delhi NCR & Pan-India Dispatch',
+    ],
+    specs: [
+      // Capacity & Output
+      cap('5 Trays', undefined, 'Tray Capacity'),
+      cap('5 Trays (GN 1/1)', undefined, 'Pan Capacity'),
+      cap('5 Trays', undefined, 'Number of Trays'),
+      cap('GN 1/1 (530 × 325 mm)', undefined, 'Tray Size'),
+      cap('67 mm', undefined, 'Distance Between Trays (Pitch)'),
+      cap('800 kg', undefined, 'Capacity / Throughput'),
+      cap('1 Piece', undefined, 'Minimum Order Quantity (MOQ)'),
+
+      // Electrical & Thermal
+      elec('Power Source', 'Electric'),
+      elec('Power Type', 'Electric'),
+      elec('Connected Power', '9.3 kW'),
+      elec('Supply Voltage', '380-415V 3N~ / 220-240V 3~ / 220-240V 1~ (400V 3N~)'),
+      elec('Frequency', '50 / 60 Hz'),
+      elec('Max Temperature', '260°C'),
+      elec('Operating Temperature Range', '30°C to 260°C'),
+
+      // Dimensions & Weight
+      dims('Size / Dimension', 'Medium Countertop'),
+      dims('Dimensions (W × D × H)', '750 × 783 × 675 mm'),
+      dims('Net Weight', '70 kg'),
+      dims('Gross Packaging Weight', '80 kg'),
+
+      // Construction & Material
+      constr('Model Name / Number', 'XEVC-0511-EPRM'),
+      constr('Brand & Origin', 'UNOX (Italy)'),
+      constr('Product Series', 'CHEFTOP MIND.Maps™ PLUS / Bakertop Mind Maps Compatibility'),
+      constr('Oven Type', 'Industrial / Commercial Countertop Combi Oven'),
+      constr('Body & Chamber Material', 'AISI 304 Stainless Steel'),
+      constr('Door Type', 'Single Door (Hinge on Left Side, Triple-Glazed High Emissivity Glass)'),
+      constr('Control Type', 'Digital (9.5" Capacitive Touch Control Panel)'),
+      constr('Cooking Functions', 'Steam, Bake, Combi, Convection, Regeneration, Roast, Grill, Pan Frying, Dehydrating, Sous-Vide'),
+      constr('Advanced Technologies', 'UNOX Intensive Cooking, Intelligence Performance, CHEFUNOX Automation'),
+      constr('Suitable Applications', 'Cloud Kitchen, Restaurant, Bakery, Canteen, Cafe, Hotel, Central Commissary'),
+      constr('Warranty Coverage', '1 Year On-site Manufacturer Warranty'),
+      constr('Official Authority', 'Techmate Industries — Authorized UNOX Oven Dealers in Delhi & Pan-India'),
+    ],
   }),
   unox({
     model: 'XEBC-06EU-E1RM',
